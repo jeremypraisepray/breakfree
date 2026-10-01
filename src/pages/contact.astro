@@ -5,7 +5,7 @@ import Photo from '../components/Photo.astro';
 import Arrow from '../components/Arrow.astro';
 import site from '../data/site.json';
 import a from '../assets/photos/create-your-escape.jpg';
-import b from '../assets/photos/stage-crew.webp';
+import b from '../assets/photos/battle-arena.jpg';
 const socials = site.social.filter((s) => s.url);
 ---
 <Layout title="Contact" description="Contact Break Free Worldwide in Houston, TX. Claim your first free class at the Hip-Hop School, or book entertainment and start a partnership.">
@@ -22,7 +22,7 @@ const socials = site.social.filter((s) => s.url);
       </div>
     </a>
     <a href="/book" class="route route--world" data-cursor-label="Book">
-      <div class="route__img media"><Photo src={b} alt="" sizes="(min-width: 900px) 50vw, 100vw" widths={[480, 800, 1200]} position="50% 35%" /></div>
+      <div class="route__img media"><Photo src={b} alt="" sizes="(min-width: 900px) 50vw, 100vw" widths={[480, 800, 1200]} position="45% 55%" /></div>
       <div class="route__body">
         <span class="mono">02 — Worldwide</span>
         <h2 class="display">Book + partner</h2>
@@ -71,7 +71,7 @@ const socials = site.social.filter((s) => s.url);
   .route__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgba(10,10,10,0.92)); }
   .route__body { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.25rem, 3vw, 2.5rem); }
   .route__body .mono { color: rgba(239, 235, 228, 0.8); }
-  .route h2 { font-size: clamp(2.6rem, 5vw, 5rem); }
+  .route h2 { font-size: clamp(2rem, 3.4vw, 3.4rem); }
   .route .btn .arrow { transition: transform 0.5s var(--spring); }
   .route:hover .btn .arrow { transform: translateX(0.35em); }
   .info__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 2rem 4rem; }

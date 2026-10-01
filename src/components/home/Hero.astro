@@ -2,7 +2,7 @@
 import Photo from '../Photo.astro';
 import Arrow from '../Arrow.astro';
 import schoolImg from '../../assets/photos/studio-headstand.jpg';
-import worldImg from '../../assets/photos/stage-crew.webp';
+import worldImg from '../../assets/photos/festival-freeze.jpg';
 ---
 <section class="hero" data-hero aria-labelledby="hero-title">
   <div class="hero__meta wrap mono" aria-hidden="true">
@@ -40,7 +40,7 @@ import worldImg from '../../assets/photos/stage-crew.webp';
     <article class="path path--world" data-path="world" aria-labelledby="path-world-title">
       <div class="path__media grain" aria-hidden="true">
         <div class="path__img" data-parallax="0.08">
-          <Photo src={worldImg} alt="" eager sizes="(min-width: 900px) 70vw, 100vw" position="50% 35%" />
+          <Photo src={worldImg} alt="" eager sizes="(min-width: 900px) 70vw, 100vw" position="52% 45%" />
         </div>
       </div>
       <div class="path__body">
@@ -121,11 +121,11 @@ import worldImg from '../../assets/photos/stage-crew.webp';
   .paths[data-active='school'] .path--world .path__body, .paths[data-active='world'] .path--school .path__body { opacity: 0.45; transform: translateY(0.75rem); }
   .path__num { color: rgba(239, 235, 228, 0.8); margin-bottom: 1rem; }
   .path__title {
-    font-size: clamp(2.6rem, 5.4vw, 6.4rem); color: var(--white);
+    font-size: clamp(2.1rem, 3.6vw, 4rem); color: var(--white);
     transition: font-variation-settings 1s var(--ease-out), letter-spacing 1s var(--ease-out);
   }
   .paths[data-active='school'] .path--school .path__title, .paths[data-active='world'] .path--world .path__title { font-variation-settings: 'wdth' 88; letter-spacing: -0.025em; }
-  .path__copy { margin-top: 1rem; max-width: 30ch; font-size: clamp(1.05rem, 1.3vw, 1.3rem); color: rgba(239, 235, 228, 0.85); }
+  .path__copy { margin-top: 1rem; max-width: 30ch; font-size: clamp(1rem, 1.1vw, 1.15rem); color: rgba(239, 235, 228, 0.85); }
   .path__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; margin-top: 1.75rem; }
   .path__ctas .btn { transition: transform 0.6s var(--spring), box-shadow 0.6s var(--ease-out), color 0.45s var(--ease-out); }
   .paths[data-active='school'] .path--school .btn, .paths[data-active='world'] .path--world .btn { box-shadow: 0 1.2rem 3rem -1rem rgba(0, 0, 0, 0.6); }
@@ -141,7 +141,7 @@ import worldImg from '../../assets/photos/stage-crew.webp';
     .hero { padding-top: calc(var(--nav-h) + 0.5rem); }
     .hero__meta { position: relative; top: 0; font-size: 0.65rem; margin-bottom: 0.9rem; }
     .hero__meta span:first-child { display: none; }
-    .hero__title { position: relative; top: 0; font-size: clamp(3.4rem, 17vw, 7rem); margin-bottom: 1.25rem; }
+    .hero__title { position: relative; top: 0; font-size: clamp(2.6rem, 12.5vw, 4.25rem); margin-bottom: 1.25rem; }
     .hero__line:nth-child(3) { padding-left: 0; }
     .paths { flex-direction: column; height: auto; gap: 0.6rem; padding: 0 0.6rem 0.6rem; }
     .paths__label { display: none; }
@@ -149,7 +149,7 @@ import worldImg from '../../assets/photos/stage-crew.webp';
     .path__img { width: 100%; left: 0; translate: none; top: -8%; bottom: -8%; transform: translate3d(0, var(--py, 0px), 0) scale(1.05); filter: grayscale(0.2) contrast(1.05) brightness(0.85); }
     .path__body { padding: 0 1.25rem 1.4rem; }
     .path__num { margin-bottom: 0.6rem; font-size: 0.65rem; }
-    .path__title { font-size: clamp(2.3rem, 11vw, 4rem); }
+    .path__title { font-size: clamp(2rem, 9vw, 3rem); }
     .path__copy { margin-top: 0.6rem; font-size: 1rem; }
     .path__ctas { margin-top: 1.1rem; gap: 0.5rem 1.25rem; }
     .path__ctas .btn { min-height: 3.4rem; font-size: 0.9rem; padding: 0 1.25rem; }

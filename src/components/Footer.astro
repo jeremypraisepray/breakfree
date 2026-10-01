@@ -1,13 +1,17 @@
 ---
 import site from '../data/site.json';
 import Arrow from './Arrow.astro';
+import Logo from './Logo.astro';
 const socials = site.social.filter((s) => s.url);
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
   <div class="wrap">
     <div class="footer__top">
-      <p class="display display--l footer__claim">Culture.<br />Movement.<br /><span class="outline-text">Freedom.</span></p>
+      <div class="footer__brand">
+        <a href="/" aria-label="Break Free Worldwide — home"><Logo size={120} eager={false} /></a>
+        <p class="display display--l footer__claim">Culture.<br />Movement.<br /><span class="outline-text">Freedom.</span></p>
+      </div>
       <div class="footer__ctas">
         <a href="/first-class-free" class="btn btn--school btn--lg" data-magnetic>Get your first class free <Arrow /></a>
         <a href="/book" class="btn btn--ghost btn--lg" data-magnetic>Book Break Free <Arrow /></a>
@@ -69,6 +73,7 @@ const year = new Date().getFullYear();
 <style>
   .footer { position: relative; background: var(--ink); border-top: 1px solid rgba(239, 235, 228, 0.1); padding-top: clamp(4rem, 9vw, 8rem); overflow: hidden; }
   .footer__top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2.5rem; padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .footer__brand { display: flex; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); --logo-size: clamp(5rem, 9vw, 7.5rem); }
   .footer__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
   .footer__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; padding-block: 3rem; border-top: 1px solid rgba(239, 235, 228, 0.12); }
   .footer__h { color: var(--smoke); margin-bottom: 1.1rem; font-weight: 400; }
@@ -78,7 +83,7 @@ const year = new Date().getFullYear();
   .footer__grid address { font-style: normal; margin-bottom: 1rem; }
   .footer__mark {
     font-family: var(--font-display); font-weight: 900; font-variation-settings: 'wdth' 62;
-    text-transform: uppercase; font-size: 24.5vw; line-height: 0.72; letter-spacing: -0.03em; white-space: nowrap;
+    text-transform: uppercase; font-size: 19vw; line-height: 0.72; letter-spacing: -0.03em; white-space: nowrap;
     text-align: center; color: var(--charcoal); margin-top: 1rem; user-select: none;
   }
   .footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 1.5rem 2rem; color: var(--smoke); border-top: 1px solid rgba(239, 235, 228, 0.08); position: relative; }

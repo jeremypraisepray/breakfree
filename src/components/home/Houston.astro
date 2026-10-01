@@ -2,6 +2,7 @@
 import site from '../../data/site.json';
 import Photo from '../Photo.astro';
 import Arrow from '../Arrow.astro';
+import Logo from '../Logo.astro';
 import door from '../../assets/photos/create-your-escape.jpg';
 import studio from '../../assets/photos/studio-headstand.jpg';
 ---
@@ -24,6 +25,7 @@ import studio from '../../assets/photos/studio-headstand.jpg';
     </div>
 
     <div class="houston__coords mono" aria-hidden="true">
+      <span class="houston__seal"><Logo size={160} eager={false} /></span>
       <span>29.7604° N</span><span>95.3698° W</span>
     </div>
 
@@ -73,7 +75,9 @@ import studio from '../../assets/photos/studio-headstand.jpg';
   .houston__photo { grid-area: photo; aspect-ratio: 3 / 4; }
   .houston__photo-inner { position: absolute; inset: -8% 0; transform: translateY(var(--py, 0)); }
   .houston__photo-inner :global(img) { width: 100%; height: 100%; object-fit: cover; }
-  .houston__coords { grid-area: coord; display: grid; align-content: end; gap: 0.2rem; color: #6b6863; }
+  .houston__coords { grid-area: coord; display: grid; align-content: end; justify-items: start; gap: 0.2rem; color: #6b6863; }
+  .houston__seal { --logo-size: clamp(6rem, 9vw, 9rem); margin-bottom: 1.25rem; }
+  .houston__seal :global(.logo__img) { filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.2)); }
   .houston__copy { grid-area: copy; display: grid; gap: 1.25rem; align-content: end; }
   .houston__copy .muted { max-width: 40ch; }
   .houston__studio { grid-area: studio; aspect-ratio: 4 / 3; }

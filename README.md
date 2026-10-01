@@ -36,6 +36,7 @@ Everything editable lives in plain files, and the same files are wired to a visu
 | Testimonials | `src/content/testimonials/*.md` |
 | Partners | `src/content/partners/*.md` |
 | Photos | `src/assets/photos/` (uploads go to `src/assets/uploads/`) |
+| Logo | `src/assets/brand/logo.png` (favicons in `public/`) |
 
 New programs, services, events and partners appear automatically — no redesign needed. Set `draft: true` to hide an entry.
 Testimonials and partners sections stay hidden until at least one real entry is published (example files are drafts).
@@ -58,7 +59,7 @@ The current live site could not be reached while building, so only facts from th
 - [ ] Add the public **email, phone and social URLs** in `src/data/site.json` (they render only once filled in).
 - [ ] Review the program details (ages, levels, schedule) in `src/content/programs/`.
 - [ ] Add real testimonials, partners, events and verified stats as they become available.
-- [ ] Swap in more photography or short looping video. The 7 supplied photos are used throughout.
+- [ ] Keep adding photography or short looping video. Drop new images in `src/assets/photos/` (or upload via `/admin`).
 
 ## Design system
 
