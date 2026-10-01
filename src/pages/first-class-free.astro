@@ -1,0 +1,201 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import FunnelShell from '../components/FunnelShell.astro';
+import Arrow from '../components/Arrow.astro';
+import site from '../data/site.json';
+import img from '../assets/photos/create-your-escape.jpg';
+
+const programs = (await getCollection('programs', (p) => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
+const endpoint = site.forms.firstClassEndpoint;
+const formName = 'first-class-free';
+---
+<Layout
+  title="Get Your First Class Free"
+  description="Your first hip-hop or breaking class at Break Free Hip-Hop School in Houston is free. Claim your spot in under a minute."
+  image={img}
+  focus
+>
+  <FunnelShell
+    accent="school"
+    image={img}
+    imageAlt={'A young dancer poses in front of the studio door painted "Create Your Escape".'}
+    imagePos="50% 40%"
+    eyebrow="Break Free Hip-Hop School — Houston, TX"
+    title={['First', 'class', 'free.']}
+    lede="Step into the culture. No experience needed — just show up ready to move."
+    perks={['No experience needed', 'Youth · Teens', 'Under a minute']}
+  >
+    <div class="ff" data-funnel-wrap>
+      <div class="ff__top">
+        <span class="mono" data-step-count>01 / 03</span>
+        <div class="ff__progress" data-progress aria-hidden="true"></div>
+      </div>
+
+      <form
+        name={formName}
+        method="POST"
+        action={endpoint || '/first-class-free/thanks'}
+        data-funnel
+        data-endpoint={endpoint}
+        data-netlify={endpoint ? undefined : 'true'}
+        netlify-honeypot="bot-field"
+      >
+        <input type="hidden" name="form-name" value={formName} />
+        <p hidden><label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <!-- STEP 1 -->
+        <fieldset class="ff__step" data-step>
+          <legend><span class="ff__step-title" data-step-title>Who's dancing?</span></legend>
+
+          <fieldset class="chips">
+            <legend class="mono muted">This class is for</legend>
+            <label class="chip"><input type="radio" name="for_whom" value="me" required checked /><span>Me</span></label>
+            <label class="chip"><input type="radio" name="for_whom" value="my-child" /><span>My child</span></label>
+            <label class="chip"><input type="radio" name="for_whom" value="someone-else" /><span>Someone else</span></label>
+            <p class="err" aria-live="polite"></p>
+          </fieldset>
+
+          <div class="ff__row">
+            <div class="field">
+              <label for="ffa-first">Dancer's first name</label>
+              <input id="ffa-first" name="first_name" autocomplete="given-name" required placeholder="First name" />
+              <p class="err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="ffa-last">Last name</label>
+              <input id="ffa-last" name="last_name" autocomplete="family-name" required placeholder="Last name" />
+              <p class="err" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="field" style="max-width: 14rem">
+            <label for="ffa-age">Dancer's age</label>
+            <input id="ffa-age" name="age" type="number" inputmode="numeric" min="3" max="99" required placeholder="Age" />
+            <p class="err" aria-live="polite"></p>
+          </div>
+
+          <div class="ff__nav">
+            <span></span>
+            <button type="button" class="btn btn--school btn--lg" data-next>Next <Arrow /></button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2 -->
+        <fieldset class="ff__step" data-step>
+          <legend><span class="ff__step-title" data-step-title>Find your movement</span></legend>
+
+          <fieldset class="chips">
+            <legend class="mono muted">Dance experience</legend>
+            {['Brand new', 'A little', 'Some training', 'Experienced'].map((x, i) => (
+              <label class="chip"><input type="radio" name="experience" value={x} required={i === 0} /><span>{x}</span></label>
+            ))}
+            <p class="err" aria-live="polite"></p>
+          </fieldset>
+
+          <fieldset class="chips">
+            <legend class="mono muted">I'm interested in</legend>
+            {programs.map((p, i) => (
+              <label class="chip"><input type="radio" name="program" value={p.id} required={i === 0} /><span>{p.data.title}</span></label>
+            ))}
+            <label class="chip"><input type="radio" name="program" value="not-sure" /><span>Not sure yet</span></label>
+            <p class="err" aria-live="polite"></p>
+          </fieldset>
+
+          <fieldset class="chips" data-require-one>
+            <legend class="mono muted">Preferred day — {site.hours[0]?.days}, {site.hours[0]?.time}</legend>
+            {['Tuesday', 'Wednesday', 'Thursday', 'Any day'].map((d) => (
+              <label class="chip"><input type="checkbox" name="preferred_days" value={d} /><span>{d}</span></label>
+            ))}
+            <p class="err" aria-live="polite"></p>
+          </fieldset>
+
+          <div class="ff__nav">
+            <button type="button" class="ff__back" data-back>← Back</button>
+            <button type="button" class="btn btn--school btn--lg" data-next>Next <Arrow /></button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3 -->
+        <fieldset class="ff__step" data-step>
+          <legend>
+            <span class="ff__step-title" data-step-title>Lock it in</span>
+          </legend>
+          <p class="ff__step-sub">Where should we send your class details?</p>
+
+          <div class="ff__row" data-show-if="for_whom=my-child|someone-else">
+            <div class="field">
+              <label for="ffa-parent">Parent / guardian name</label>
+              <input id="ffa-parent" name="guardian_name" autocomplete="name" data-req placeholder="Full name" />
+              <p class="err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="ffa-rel">Relationship</label>
+              <select id="ffa-rel" name="guardian_relationship">
+                <option>Parent</option><option>Guardian</option><option>Family member</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ff__row">
+            <div class="field">
+              <label for="ffa-email">Email</label>
+              <input id="ffa-email" name="email" type="email" autocomplete="email" required placeholder="you@email.com" />
+              <p class="err" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="ffa-phone">Phone</label>
+              <input id="ffa-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(713) 000-0000" pattern="[0-9()+\-.\s]{7,}" />
+              <p class="err" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ffa-source">How did you hear about us? <span class="muted">(optional)</span></label>
+            <select id="ffa-source" name="source">
+              <option value="">Choose one</option>
+              <option>Instagram</option><option>Facebook</option><option>TikTok</option><option>Google</option>
+              <option>Friend or family</option><option>School or event</option><option>Other</option>
+            </select>
+          </div>
+
+          <label class="ff__consent">
+            <input type="checkbox" name="consent" value="yes" required />
+            <span>It's OK for Break Free to contact me by email, phone or text about my free class.</span>
+          </label>
+
+          <div class="ff__error" data-funnel-error hidden role="alert">
+            Something went wrong sending your request. Please try again{site.phone ? <> or call us at <a href={`tel:${site.phone}`}>{site.phone}</a></> : ''}.
+          </div>
+
+          <div class="ff__nav">
+            <button type="button" class="ff__back" data-back>← Back</button>
+            <button type="submit" class="btn btn--school btn--lg">Claim my free class <Arrow /></button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </FunnelShell>
+
+  <section class="success" data-funnel-success hidden aria-live="polite" style="--field-accent: var(--school)">
+    <div class="wrap">
+      <p class="eyebrow">First class free — confirmed</p>
+      <h2 class="split display" tabindex="-1">
+        <span class="line"><span style="--i:0">You're in<span data-first-name></span><span class="t-school">.</span></span></span>
+      </h2>
+      <p class="lede" style="margin-top:1.5rem">We'll reach out shortly to confirm your first class. Here's what happens next:</p>
+      <ol class="success__steps" role="list">
+        <li><h3>Watch your inbox</h3><p class="muted">We'll confirm your day and time by email, phone or text.</p></li>
+        <li><h3>Dress to move</h3><p class="muted">Comfortable clothes, clean sneakers and a water bottle.</p></li>
+        <li><h3>Pull up</h3><p class="muted">{site.address.street}, {site.address.city}, {site.address.region} {site.address.postalCode} · {site.hours[0]?.days}, {site.hours[0]?.time}</p></li>
+      </ol>
+      <div class="success__ctas">
+        <a href={site.address.mapUrl} target="_blank" rel="noopener" class="btn btn--school">Get directions <Arrow dir="up-right" /></a>
+        <a href="/school" class="btn btn--ghost">Explore the school <Arrow /></a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    import '../scripts/funnel.ts';
+  </script>
+</Layout>

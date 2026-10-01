@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+import hero from '../assets/photos/childrens-museum-freeze.webp';
+import side from '../assets/photos/studio-headstand.jpg';
+
+const models = [
+  ['Cultural programming', 'Recurring hip-hop programming for venues, museums, libraries and city initiatives.'],
+  ['Educational partnerships', 'Assemblies, residencies and enrichment that bring movement and history into schools.'],
+  ['Brand activations', 'Authentic hip-hop energy for launches, pop-ups and campaigns — dancers, DJs and live moments.'],
+  ['Creative collaborations', 'Content, campaigns and productions with artists who live the culture.'],
+  ['Community initiatives', 'Mobile programming and events that bring people together and invest in youth.'],
+];
+const audiences = ['Brands', 'Schools', 'Corporations', 'Events', 'Agencies', 'Communities', 'Creative partners'];
+const why = [
+  ['Authentic', 'Rooted in hip-hop culture — not borrowed from it.'],
+  ['Houston-built', 'Deep local roots with a worldwide outlook.'],
+  ['Full-spectrum', 'Dancers, DJs, instructors and programming under one roof.'],
+  ['Intentional', 'Experiences designed around your audience and your goals.'],
+];
+---
+<Layout
+  title="Strategic Partnerships"
+  description="Partner with Break Free Worldwide on cultural programming, educational experiences, brand activations and creative collaborations. Houston-based, built for the world."
+  image={hero}
+>
+  <PageHero
+    accent="world"
+    eyebrow="02 — Break Free Worldwide · Partnerships"
+    title={["Let's build", 'something', 'that moves.']}
+    lede="From live entertainment and cultural programming to educational experiences and creative collaborations, Break Free Worldwide partners with organizations that want to create meaningful experiences."
+    image={hero}
+    imageAlt="A Break Free dancer performs a freeze at a children's museum event while young fans strike poses behind him."
+    imagePos="50% 40%"
+  >
+    <a href="/book?interest=partnership" class="btn btn--world btn--lg" data-magnetic>Start a conversation <Arrow /></a>
+  </PageHero>
+
+  <section class="section" aria-labelledby="models-title">
+    <div class="wrap models">
+      <div class="models__head">
+        <p class="eyebrow" data-reveal>Ways to partner</p>
+        <h2 class="display display--xl" id="models-title" data-reveal style="margin-top:1.5rem">Five ways<br /><span class="outline-text">in.</span></h2>
+        <div class="models__img media tone" data-reveal="mask">
+          <Photo src={side} alt="An instructor balances in a headstand freeze while young students watch." sizes="(min-width: 900px) 30vw, 100vw" widths={[480, 800, 1200]} position="40% 50%" />
+        </div>
+      </div>
+      <ol role="list" class="models__list">
+        {models.map(([t, d], i) => (
+          <li data-reveal style={`--d:${i * 0.05}`}>
+            <span class="mono t-world">{String(i + 1).padStart(2, '0')}</span>
+            <div><h3>{t}</h3><p class="muted">{d}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="aud-band" aria-label="Who we partner with">
+    <div class="marquee" aria-hidden="true">
+      {[0, 1].map(() => <div class="marquee__track">{audiences.map((a) => <span>{a}<i>✦</i></span>)}</div>)}
+    </div>
+    <p class="sr-only">We partner with {audiences.join(', ')}.</p>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="why-title">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Why Break Free</p>
+      <h2 class="display display--xl" id="why-title" data-reveal style="margin-top:1.5rem">The culture,<br />done right.</h2>
+      <dl class="why">
+        {why.map(([t, d], i) => (
+          <div data-reveal style={`--d:${i * 0.06}`}><dt>{t}</dt><dd class="muted">{d}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="pitch section" aria-labelledby="pitch-title">
+    <div class="wrap pitch__inner">
+      <h2 class="split display display--mega" id="pitch-title" data-split>
+        <span class="line"><span style="--i:0">Your vision.</span></span>
+        <span class="line"><span style="--i:1" class="t-world">Our culture.</span></span>
+      </h2>
+      <div class="pitch__cta" data-reveal>
+        <p class="lede">Tell us about your organization and what you want to create. We'll take it from there.</p>
+        <a href="/book?interest=partnership" class="btn btn--world btn--lg" data-magnetic>Start a conversation <Arrow /></a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .models { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 7rem); align-items: start; }
+  .models__head { position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .models__img { aspect-ratio: 4 / 3; margin-top: 2.5rem; max-width: 30rem; }
+  .models__list { border-top: 1px solid rgba(239, 235, 228, 0.14); }
+  .models__list li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 2rem 0; border-bottom: 1px solid rgba(239, 235, 228, 0.14); transition: padding 0.6s var(--ease-out); }
+  .models__list li:hover { padding-left: 0.75rem; }
+  .models__list h3 { font-size: clamp(1.6rem, 3vw, 2.8rem); font-variation-settings: 'wdth' 75; font-weight: 800; margin-bottom: 0.6rem; }
+  .aud-band { background: var(--world); color: var(--ink); padding-block: 1.5rem; }
+  .aud-band span { display: inline-flex; align-items: center; gap: 3rem; font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 72; text-transform: uppercase; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; }
+  .aud-band i { font-style: normal; font-size: 0.4em; }
+  .why { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .why > div { padding-top: 1.25rem; border-top: 1px solid rgba(0, 0, 0, 0.18); }
+  .why dt { font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 80; text-transform: uppercase; font-size: 1.6rem; margin-bottom: 0.5rem; }
+  .pitch__inner { display: grid; gap: 3rem; }
+  .pitch__cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 2rem; }
+  @media (max-width: 899px) {
+    .models { grid-template-columns: 1fr; }
+    .models__head { position: static; }
+    .why { grid-template-columns: 1fr 1fr; }
+    .pitch h2 { font-size: clamp(3rem, 14vw, 6rem); }
+    .pitch__cta .btn { width: 100%; }
+  }
+</style>

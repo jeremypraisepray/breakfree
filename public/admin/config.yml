@@ -1,0 +1,179 @@
+# Break Free Worldwide — content manager (Decap CMS)
+# Edit at https://www.breakfreeworldwide.com/admin
+# Every save commits to the repository and triggers a fresh deploy.
+#
+# Auth: on Netlify enable Identity + Git Gateway and switch the backend to
+#   name: git-gateway
+# Elsewhere keep `github` and configure an OAuth app (see README).
+backend:
+  name: github
+  repo: jeremypraisepray/breakfree
+  branch: main
+
+media_folder: src/assets/uploads
+public_folder: ../../assets/uploads
+
+collections:
+  - name: settings
+    label: Site settings
+    files:
+      - name: site
+        label: Contact, hours, forms & announcement
+        file: src/data/site.json
+        fields:
+          - { name: name, label: Organization name, widget: string }
+          - { name: shortName, label: Short name, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: description, label: SEO description, widget: text }
+          - { name: founded, label: Year founded, widget: string }
+          - { name: url, label: Website URL, widget: string }
+          - { name: email, label: Public email, widget: string, required: false }
+          - { name: phone, label: Public phone, widget: string, required: false }
+          - name: address
+            label: Address
+            widget: object
+            fields:
+              - { name: street, label: Street, widget: string }
+              - { name: city, label: City, widget: string }
+              - { name: region, label: State, widget: string }
+              - { name: postalCode, label: ZIP, widget: string }
+              - { name: country, label: Country code, widget: string }
+              - { name: mapUrl, label: Google Maps link, widget: string }
+          - name: hours
+            label: Hours
+            widget: list
+            fields:
+              - { name: days, label: Days (display), widget: string }
+              - { name: time, label: Time (display), widget: string }
+              - { name: opens, label: Opens (24h, e.g. 17:00), widget: string }
+              - { name: closes, label: Closes (24h, e.g. 20:00), widget: string }
+              - { name: dayCodes, label: Days (for Google), widget: select, multiple: true, options: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday] }
+          - name: social
+            label: Social links
+            widget: list
+            fields:
+              - { name: label, label: Network, widget: string }
+              - { name: url, label: URL (leave empty to hide), widget: string, required: false }
+          - name: forms
+            label: Form delivery
+            widget: object
+            fields:
+              - { name: _note, label: Note, widget: hidden }
+              - { name: firstClassEndpoint, label: First Class Free endpoint (empty = Netlify Forms), widget: string, required: false }
+              - { name: bookingEndpoint, label: Booking endpoint (empty = Netlify Forms), widget: string, required: false }
+          - name: announcement
+            label: Announcement bar
+            widget: object
+            fields:
+              - { name: enabled, label: Show announcement, widget: boolean }
+              - { name: text, label: Text, widget: string, required: false }
+              - { name: linkLabel, label: Link label, widget: string, required: false }
+              - { name: link, label: Link URL, widget: string, required: false }
+          - name: impact
+            label: Impact numbers (verified only)
+            widget: list
+            fields:
+              - { name: value, label: Big value, widget: string }
+              - { name: label, label: Label, widget: string }
+              - { name: note, label: Note, widget: string }
+
+  - name: programs
+    label: Classes & programs
+    folder: src/content/programs
+    create: true
+    slug: '{{slug}}'
+    media_folder: ../../assets/uploads
+    public_folder: ../../assets/uploads
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: kicker, label: Kicker, widget: string }
+      - { name: summary, label: Short summary, widget: text }
+      - { name: audience, label: Who it's for, widget: string }
+      - { name: level, label: Level, widget: string }
+      - { name: schedule, label: Schedule, widget: string, required: false }
+      - { name: image, label: Image, widget: image }
+      - { name: imageAlt, label: Image description (alt text), widget: string }
+      - { name: order, label: Sort order, widget: number, default: 99 }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }
+      - { name: body, label: Details, widget: markdown, required: false }
+
+  - name: services
+    label: Services (homepage menu)
+    folder: src/content/services
+    create: true
+    slug: '{{slug}}'
+    media_folder: ../../assets/uploads
+    public_folder: ../../assets/uploads
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: path, label: Path, widget: select, options: [{ label: 'Hip-Hop School', value: school }, { label: 'Worldwide (entertainment/partnerships)', value: worldwide }] }
+      - { name: summary, label: Summary, widget: text }
+      - { name: highlights, label: Highlights, widget: list, required: false }
+      - { name: image, label: Image, widget: image }
+      - { name: imageAlt, label: Image description (alt text), widget: string }
+      - { name: link, label: Link, widget: string }
+      - { name: order, label: Sort order, widget: number, default: 99 }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }
+
+  - name: events
+    label: Events
+    folder: src/content/events
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    media_folder: ../../assets/uploads
+    public_folder: ../../assets/uploads
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, time_format: false, date_format: 'YYYY-MM-DD', format: 'YYYY-MM-DD' }
+      - { name: location, label: Location, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - { name: link, label: Link (tickets / details), widget: string, required: false }
+      - { name: image, label: Image, widget: image, required: false }
+      - { name: imageAlt, label: Image description, widget: string, required: false }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }
+
+  - name: news
+    label: News & announcements
+    folder: src/content/news
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    media_folder: ../../assets/uploads
+    public_folder: ../../assets/uploads
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, time_format: false, date_format: 'YYYY-MM-DD', format: 'YYYY-MM-DD' }
+      - { name: summary, label: Summary, widget: text }
+      - { name: image, label: Image, widget: image, required: false }
+      - { name: imageAlt, label: Image description, widget: string, required: false }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }
+      - { name: body, label: Body, widget: markdown }
+
+  - name: testimonials
+    label: Testimonials
+    folder: src/content/testimonials
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    fields:
+      - { name: quote, label: Quote, widget: text }
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: Role / relationship, widget: string, required: false }
+      - { name: path, label: Path, widget: select, options: [school, worldwide], default: school }
+      - { name: order, label: Sort order, widget: number, default: 99 }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }
+
+  - name: partners
+    label: Partners
+    folder: src/content/partners
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    media_folder: ../../assets/uploads
+    public_folder: ../../assets/uploads
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: category, label: Category, widget: string, required: false }
+      - { name: logo, label: Logo, widget: image, required: false }
+      - { name: url, label: Website, widget: string, required: false }
+      - { name: order, label: Sort order, widget: number, default: 99 }
+      - { name: draft, label: Hide (draft), widget: boolean, default: false }

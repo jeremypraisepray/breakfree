@@ -1,0 +1,93 @@
+---
+import site from '../../data/site.json';
+import Photo from '../Photo.astro';
+import Arrow from '../Arrow.astro';
+import door from '../../assets/photos/create-your-escape.jpg';
+import studio from '../../assets/photos/studio-headstand.jpg';
+---
+<section class="houston section section--paper" aria-labelledby="houston-title">
+  <div class="wrap houston__grid">
+    <div class="houston__head">
+      <p class="eyebrow" data-reveal>Houston, TX — Est. {site.founded}</p>
+      <h2 class="split display display--xxl" id="houston-title" data-split>
+        <span class="line"><span style="--i:0">Born in</span></span>
+        <span class="line"><span style="--i:1">Houston.</span></span>
+        <span class="line"><span style="--i:2" class="outline-text">Built for</span></span>
+        <span class="line"><span style="--i:3" class="outline-text">the world.</span></span>
+      </h2>
+    </div>
+
+    <div class="houston__photo media" data-reveal="mask">
+      <div class="houston__photo-inner" data-parallax="0.12">
+        <Photo src={door} alt={'A young dancer poses low beneath the hand-painted words "Create Your Escape".'} sizes="(min-width: 900px) 40vw, 100vw" position="50% 35%" />
+      </div>
+    </div>
+
+    <div class="houston__coords mono" aria-hidden="true">
+      <span>29.7604° N</span><span>95.3698° W</span>
+    </div>
+
+    <div class="houston__copy">
+      <p class="lede" data-reveal>
+        Break Free Worldwide is based in Houston, Texas — one of the most diverse cities in America, and the floor where all of this began.
+      </p>
+      <p class="muted" data-reveal style="--d:0.1">
+        Our Hip-Hop School is a home base for dancers of every background: a place to train, battle, build friendships and find a voice through movement.
+      </p>
+    </div>
+
+    <div class="houston__studio media tone" data-reveal="mask" style="--d:0.15">
+      <Photo src={studio} alt="Inside the studio: an instructor balances in a headstand freeze while two young students watch." sizes="(min-width: 900px) 30vw, 100vw" widths={[480, 800, 1200]} position="40% 50%" />
+    </div>
+
+    <dl class="houston__info" data-reveal>
+      <div>
+        <dt class="mono">The school</dt>
+        <dd><a href={site.address.mapUrl} target="_blank" rel="noopener">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</a></dd>
+      </div>
+      {site.hours.map((h) => (
+        <div>
+          <dt class="mono">Hours</dt>
+          <dd>{h.days}<br />{h.time}</dd>
+        </div>
+      ))}
+      <div class="houston__ctas">
+        <a href="/first-class-free" class="btn btn--ink" data-magnetic>Visit — first class free <Arrow /></a>
+        <a href={site.address.mapUrl} target="_blank" rel="noopener" class="link-line">Directions <Arrow dir="up-right" /></a>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .houston { overflow: hidden; }
+  .houston__grid {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: clamp(2.5rem, 5vw, 4rem);
+    grid-template-areas:
+      'head head head head head head head photo photo photo photo photo'
+      'copy copy copy copy coord coord coord photo photo photo photo photo'
+      'studio studio studio studio info info info info info info info info';
+  }
+  .houston__head { grid-area: head; align-self: end; }
+  .houston__head h2 { margin-top: 1.5rem; }
+  .houston__photo { grid-area: photo; aspect-ratio: 3 / 4; }
+  .houston__photo-inner { position: absolute; inset: -8% 0; transform: translateY(var(--py, 0)); }
+  .houston__photo-inner :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .houston__coords { grid-area: coord; display: grid; align-content: end; gap: 0.2rem; color: #6b6863; }
+  .houston__copy { grid-area: copy; display: grid; gap: 1.25rem; align-content: end; }
+  .houston__copy .muted { max-width: 40ch; }
+  .houston__studio { grid-area: studio; aspect-ratio: 4 / 3; }
+  .houston__info { grid-area: info; display: flex; flex-wrap: wrap; gap: 2rem 4rem; align-items: flex-end; align-self: end; padding-top: 2rem; border-top: 1px solid rgba(0, 0, 0, 0.15); }
+  .houston__info dt { color: #6b6863; margin-bottom: 0.5rem; }
+  .houston__info dd { font-size: 1.1rem; line-height: 1.4; }
+  .houston__info a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .houston__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-left: auto; }
+  @media (max-width: 899px) {
+    .houston__grid { grid-template-columns: 1fr; grid-template-areas: 'head' 'photo' 'copy' 'info' 'studio'; }
+    .houston__coords { display: none; }
+    .houston__photo { aspect-ratio: 4 / 5; }
+    .houston__studio { margin-top: 0; }
+    .houston__ctas { margin-left: 0; width: 100%; }
+    .houston__ctas .btn { width: 100%; }
+  }
+</style>

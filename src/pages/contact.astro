@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+import site from '../data/site.json';
+import a from '../assets/photos/create-your-escape.jpg';
+import b from '../assets/photos/stage-crew.webp';
+const socials = site.social.filter((s) => s.url);
+---
+<Layout title="Contact" description="Contact Break Free Worldwide in Houston, TX. Claim your first free class at the Hip-Hop School, or book entertainment and start a partnership.">
+  <PageHero eyebrow="Contact — Houston, Texas" title={['Start', 'here.']} lede="Two ways in. Pick the one that fits and we'll take it from there." />
+
+  <section class="routes wrap" aria-label="Choose your path">
+    <a href="/first-class-free" class="route route--school" data-cursor-label="Dance">
+      <div class="route__img media"><Photo src={a} alt="" sizes="(min-width: 900px) 50vw, 100vw" widths={[480, 800, 1200]} position="50% 40%" /></div>
+      <div class="route__body">
+        <span class="mono">01 — Hip-Hop School</span>
+        <h2 class="display">First class free</h2>
+        <p>Classes, breaking, private lessons and youth programs in Houston.</p>
+        <span class="btn btn--school">Get your first class free <Arrow /></span>
+      </div>
+    </a>
+    <a href="/book" class="route route--world" data-cursor-label="Book">
+      <div class="route__img media"><Photo src={b} alt="" sizes="(min-width: 900px) 50vw, 100vw" widths={[480, 800, 1200]} position="50% 35%" /></div>
+      <div class="route__body">
+        <span class="mono">02 — Worldwide</span>
+        <h2 class="display">Book + partner</h2>
+        <p>Performances, DJs, school programming, corporate events and partnerships.</p>
+        <span class="btn btn--world">Book Break Free <Arrow /></span>
+      </div>
+    </a>
+  </section>
+
+  <section class="section info" aria-labelledby="info-title">
+    <div class="wrap info__grid">
+      <h2 class="display display--l" id="info-title">Find us<span class="t-school">.</span></h2>
+      <dl class="info__list">
+        <div>
+          <dt class="mono">Address</dt>
+          <dd><a href={site.address.mapUrl} target="_blank" rel="noopener">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</a></dd>
+        </div>
+        <div>
+          <dt class="mono">Hours</dt>
+          {site.hours.map((h) => <dd>{h.days}<br />{h.time}</dd>)}
+        </div>
+        {(site.email || site.phone) && (
+          <div>
+            <dt class="mono">Reach us</dt>
+            {site.email && <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>}
+            {site.phone && <dd><a href={`tel:${site.phone.replace(/[^\d+]/g, '')}`}>{site.phone}</a></dd>}
+          </div>
+        )}
+        {socials.length > 0 && (
+          <div>
+            <dt class="mono">Follow</dt>
+            {socials.map((s) => <dd><a href={s.url} target="_blank" rel="noopener">{s.label}</a></dd>)}
+          </div>
+        )}
+      </dl>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .routes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; padding-bottom: 2rem; }
+  .route { position: relative; display: flex; align-items: flex-end; min-height: 34rem; overflow: hidden; border-radius: 1.25rem; isolation: isolate; }
+  .route__img { position: absolute; inset: 0; z-index: -1; }
+  .route__img :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.5) brightness(0.7); transition: transform 1.4s var(--ease-out), filter 0.8s; }
+  .route:hover .route__img :global(img) { transform: scale(1.05); filter: grayscale(0) brightness(0.8); }
+  .route__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgba(10,10,10,0.92)); }
+  .route__body { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.25rem, 3vw, 2.5rem); }
+  .route__body .mono { color: rgba(239, 235, 228, 0.8); }
+  .route h2 { font-size: clamp(2.6rem, 5vw, 5rem); }
+  .route .btn .arrow { transition: transform 0.5s var(--spring); }
+  .route:hover .btn .arrow { transform: translateX(0.35em); }
+  .info__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 2rem 4rem; }
+  .info__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; }
+  .info__list dt { color: var(--smoke); margin-bottom: 0.6rem; }
+  .info__list dd { font-size: 1.15rem; line-height: 1.45; }
+  .info__list a:hover { color: var(--school); }
+  @media (max-width: 899px) {
+    .routes, .info__grid { grid-template-columns: 1fr; }
+    .route { min-height: 26rem; }
+  }
+</style>

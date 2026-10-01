@@ -1,0 +1,44 @@
+{
+  "name": "Break Free Worldwide",
+  "shortName": "Break Free",
+  "tagline": "Create Your Escape.",
+  "description": "Break Free Worldwide is a Houston-based hip-hop organization combining culture, competition, creativity, entertainment, lifestyle, education and community. Home of the Break Free Hip-Hop School — your first class is free.",
+  "founded": "2011",
+  "url": "https://www.breakfreeworldwide.com",
+  "email": "",
+  "phone": "",
+  "address": {
+    "street": "9191 Winkler Dr. Ste. F",
+    "city": "Houston",
+    "region": "TX",
+    "postalCode": "77017",
+    "country": "US",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=9191+Winkler+Dr+Ste+F+Houston+TX+77017"
+  },
+  "hours": [
+    { "days": "Tuesday – Thursday", "time": "5:00 PM – 8:00 PM", "opens": "17:00", "closes": "20:00", "dayCodes": ["Tuesday", "Wednesday", "Thursday"] }
+  ],
+  "social": [
+    { "label": "Instagram", "url": "" },
+    { "label": "Facebook", "url": "" },
+    { "label": "YouTube", "url": "" },
+    { "label": "TikTok", "url": "" }
+  ],
+  "forms": {
+    "_note": "Paste a form endpoint (Formspree, Basin, Getform, HubSpot, your CRM webhook…). Leave empty when hosting on Netlify — Netlify Forms will capture submissions automatically.",
+    "firstClassEndpoint": "",
+    "bookingEndpoint": ""
+  },
+  "announcement": {
+    "enabled": false,
+    "text": "",
+    "linkLabel": "",
+    "link": ""
+  },
+  "impact": [
+    { "value": "2011", "label": "Established", "note": "Over a decade in the culture" },
+    { "value": "HTX", "label": "Houston, Texas", "note": "Home base. Home floor." },
+    { "value": "02", "label": "Ways in", "note": "Train with us — or bring us to you" },
+    { "value": "∞", "label": "Worldwide", "note": "Built to move beyond the city" }
+  ]
+}

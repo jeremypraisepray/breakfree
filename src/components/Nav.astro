@@ -1,0 +1,113 @@
+---
+import Logo from './Logo.astro';
+import Arrow from './Arrow.astro';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { href: '/school', label: 'School' },
+  { href: '/entertainment', label: 'Entertainment' },
+  { href: '/partnerships', label: 'Partnerships' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+const isActive = (h: string) => path === h || path.startsWith(h + '/');
+---
+<header class="nav" data-nav>
+  <div class="nav__inner wrap">
+    <a href="/" class="nav__logo" aria-label="Break Free Worldwide — home"><Logo /></a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <ul role="list" data-indicator-host>
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+      <span class="nav__indicator" aria-hidden="true" data-indicator></span>
+    </nav>
+
+    <a href="/#paths" class="btn nav__cta" data-magnetic>Choose your path <Arrow /></a>
+
+    <button class="nav__burger" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+      <span class="sr-only">Menu</span>
+      <span class="nav__burger-lines" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-menu hidden>
+  <div class="menu__bg" aria-hidden="true"></div>
+  <nav class="menu__inner wrap" aria-label="Mobile">
+    <p class="mono menu__meta">Houston, TX — Est. 2011</p>
+    <ul role="list" class="menu__primary">
+      <li style="--i:0"><a href="/first-class-free"><span class="mono t-school">01</span>First class free</a></li>
+      <li style="--i:1"><a href="/entertainment"><span class="mono t-world">02</span>Entertainment</a></li>
+      <li style="--i:2"><a href="/partnerships"><span class="mono t-world">03</span>Partnerships</a></li>
+    </ul>
+    <ul role="list" class="menu__secondary">
+      <li style="--i:3"><a href="/about">About</a></li>
+      <li style="--i:4"><a href="/school#programs">Programs</a></li>
+      <li style="--i:5"><a href="/contact">Contact</a></li>
+    </ul>
+    <div class="menu__ctas" style="--i:6">
+      <a href="/first-class-free" class="btn btn--school btn--block">First class free <Arrow /></a>
+      <a href="/book" class="btn btn--ghost btn--block">Book Break Free <Arrow /></a>
+    </div>
+  </nav>
+</div>
+
+<style>
+  .nav {
+    position: fixed; inset: 0 0 auto; z-index: 100; height: var(--nav-h);
+    color: var(--bone);
+    transition: height 0.6s var(--ease-out), background-color 0.6s var(--ease-out), backdrop-filter 0.6s, transform 0.6s var(--ease-out);
+  }
+  .nav::after { content: ''; position: absolute; inset: auto 0 0; height: 1px; background: rgba(239, 235, 228, 0.1); opacity: 0; transition: opacity 0.6s; }
+  :global(.is-scrolled) .nav { --nav-h: 62px; background: rgba(10, 10, 10, 0.72); -webkit-backdrop-filter: blur(18px) saturate(1.4); backdrop-filter: blur(18px) saturate(1.4); }
+  :global(.is-scrolled) .nav::after { opacity: 1; }
+  :global(.nav-hidden) .nav { transform: translateY(-100%); }
+  .nav__inner { height: 100%; display: flex; align-items: center; gap: 2rem; }
+  .nav__logo { margin-right: auto; position: relative; z-index: 2; }
+  .nav__links { position: relative; }
+  .nav__links ul { display: flex; gap: 0.25rem; }
+  .nav__links a {
+    display: block; padding: 0.6rem 0.85rem;
+    font-family: var(--font-display); font-weight: 600; font-variation-settings: 'wdth' 90;
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.78; transition: opacity 0.3s;
+  }
+  .nav__links a:hover, .nav__links a[aria-current='page'] { opacity: 1; }
+  .nav__indicator {
+    position: absolute; left: 0; bottom: 0.15rem; height: 2px; width: var(--w, 0); background: var(--school);
+    transform: translateX(var(--x, 0)); opacity: var(--o, 0);
+    transition: transform 0.55s var(--spring), width 0.55s var(--spring), opacity 0.3s;
+  }
+  .nav__cta { min-height: 2.75rem; font-size: 0.8rem; padding: 0 1.15rem; }
+  .nav__burger { display: none; position: relative; z-index: 2; width: 3rem; height: 3rem; border-radius: 50%; background: var(--bone); color: var(--ink); place-items: center; }
+  .nav__burger-lines { position: relative; width: 1.1rem; height: 0.6rem; }
+  .nav__burger-lines i { position: absolute; left: 0; right: 0; height: 2px; background: currentColor; transition: transform 0.5s var(--spring), top 0.5s var(--ease-out); }
+  .nav__burger-lines i:first-child { top: 0; }
+  .nav__burger-lines i:last-child { top: calc(100% - 2px); }
+  .nav__burger[aria-expanded='true'] i:first-child { top: calc(50% - 1px); transform: rotate(45deg); }
+  .nav__burger[aria-expanded='true'] i:last-child { top: calc(50% - 1px); transform: rotate(-45deg); }
+
+  @media (max-width: 1000px) {
+    .nav__links, .nav__cta { display: none; }
+    .nav__burger { display: grid; }
+  }
+
+  .menu { position: fixed; inset: 0; z-index: 99; color: var(--bone); }
+  .menu[hidden] { display: none; }
+  .menu__bg { position: absolute; inset: 0; background: var(--ink); clip-path: circle(0% at calc(100% - 2.5rem) 2.4rem); transition: clip-path 0.8s var(--ease-io); }
+  .menu.is-open .menu__bg { clip-path: circle(150% at calc(100% - 2.5rem) 2.4rem); }
+  .menu__inner { position: relative; height: 100%; display: flex; flex-direction: column; padding-top: calc(var(--nav-h) + 1.5rem); padding-bottom: 1.5rem; overflow-y: auto; }
+  .menu__meta { color: var(--smoke); margin-bottom: 1.5rem; }
+  .menu__primary a {
+    display: flex; align-items: baseline; gap: 0.9rem; padding-block: 0.35rem;
+    font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 70;
+    text-transform: uppercase; font-size: clamp(2.6rem, 12vw, 5rem); line-height: 0.95; letter-spacing: -0.01em;
+  }
+  .menu__primary .mono { font-size: 0.7rem; transform: translateY(-1.2em); }
+  .menu__secondary { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(239, 235, 228, 0.15); }
+  .menu__secondary a { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; padding-block: 0.5rem; display: inline-block; }
+  .menu__ctas { display: grid; gap: 0.75rem; margin-top: auto; padding-top: 2rem; }
+  .menu li, .menu__ctas, .menu__meta { opacity: 0; transform: translateY(1.5rem); transition: opacity 0.6s var(--ease-out), transform 0.8s var(--ease-out); }
+  .menu.is-open li, .menu.is-open .menu__ctas, .menu.is-open .menu__meta { opacity: 1; transform: none; transition-delay: calc(0.25s + var(--i, 0) * 0.05s); }
+</style>
