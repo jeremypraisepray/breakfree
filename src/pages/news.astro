@@ -1,0 +1,96 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+
+const today = new Date(new Date().toDateString());
+const events = (await getCollection('events', (e) => !e.data.draft))
+  .filter((e) => e.data.date >= today)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const news = (await getCollection('news', (n) => !n.data.draft)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const rendered = await Promise.all(news.map(async (n) => ({ entry: n, Content: (await render(n)).Content })));
+const fmt = (d: Date, opts: Intl.DateTimeFormatOptions) => d.toLocaleDateString('en-US', { timeZone: 'UTC', ...opts });
+
+const eventsLd = events.map((e) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.data.title,
+  startDate: e.data.date.toISOString().slice(0, 10),
+  location: { '@type': 'Place', name: e.data.location, address: e.data.location },
+  description: e.data.summary,
+  organizer: { '@type': 'Organization', name: 'Break Free Worldwide', url: 'https://www.breakfreeworldwide.com' },
+}));
+---
+<Layout title="News & Events" description="Upcoming events, performances and announcements from Break Free Worldwide in Houston, TX." schema={eventsLd}>
+  <PageHero eyebrow="News & events" title={["What's", 'moving.']} lede="Upcoming events, performances and announcements from the Break Free community." />
+
+  <section class="section--tight" aria-labelledby="events-title">
+    <div class="wrap">
+      <h2 class="mono muted" id="events-title">Upcoming events</h2>
+      {events.length ? (
+        <ul role="list" class="events">
+          {events.map((e) => (
+            <li class="event" data-reveal>
+              <p class="event__date display"><span>{fmt(e.data.date, { month: 'short' })}</span>{fmt(e.data.date, { day: '2-digit' })}</p>
+              <div>
+                <h3>{e.data.title}</h3>
+                <p class="mono muted">{e.data.location}</p>
+                <p>{e.data.summary}</p>
+              </div>
+              {e.data.link && <a href={e.data.link} class="link-line">Details <Arrow /></a>}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="empty">No public events posted right now. Want Break Free at yours? <a href="/book" class="link-line">Book us <Arrow /></a></p>
+      )}
+    </div>
+  </section>
+
+  <section class="section--tight" aria-labelledby="news-title">
+    <div class="wrap">
+      <h2 class="mono muted" id="news-title">Announcements</h2>
+      {rendered.length ? (
+        <div class="posts">
+          {rendered.map(({ entry, Content }) => (
+            <article class="post" id={entry.id} data-reveal>
+              {entry.data.image && <div class="post__img media"><Photo src={entry.data.image} alt={entry.data.imageAlt ?? ''} sizes="(min-width: 900px) 30vw, 100vw" widths={[480, 800]} /></div>}
+              <div class="post__body">
+                <p class="mono muted">{fmt(entry.data.date, { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                <h3>{entry.data.title}</h3>
+                <p class="lede">{entry.data.summary}</p>
+                <div class="post__content"><Content /></div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="empty">Nothing new to share yet — check back soon, or <a href="/first-class-free" class="link-line">take your first class free <Arrow /></a></p>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  section h2.mono { padding-bottom: 1rem; border-bottom: 1px solid rgba(239, 235, 228, 0.14); }
+  .events { display: grid; }
+  .event { display: grid; grid-template-columns: 7rem 1fr auto; gap: 2rem; align-items: center; padding-block: 2rem; border-bottom: 1px solid rgba(239, 235, 228, 0.14); }
+  .event__date { font-size: 3.5rem; line-height: 0.85; display: grid; }
+  .event__date span { font-size: 1rem; color: var(--school); }
+  .event h3 { font-size: clamp(1.5rem, 2.5vw, 2.25rem); margin-bottom: 0.4rem; }
+  .empty { padding-block: 2.5rem; font-size: var(--fs-m); display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; color: var(--smoke); }
+  .empty a { color: var(--bone); }
+  .posts { display: grid; }
+  .post { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: 2.5rem; padding-block: 2.5rem; border-bottom: 1px solid rgba(239, 235, 228, 0.14); }
+  .post__img { aspect-ratio: 4 / 3; }
+  .post__body { display: grid; gap: 0.9rem; align-content: start; }
+  .post h3 { font-size: clamp(1.8rem, 3vw, 3rem); }
+  .post__content :global(p + p) { margin-top: 1em; }
+  @media (max-width: 760px) {
+    .event { grid-template-columns: 4.5rem 1fr; }
+    .event > a { grid-column: 2; justify-self: start; }
+    .post { grid-template-columns: 1fr; }
+  }
+</style>

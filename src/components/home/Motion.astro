@@ -1,0 +1,91 @@
+---
+import Photo from '../Photo.astro';
+import a from '../../assets/photos/cypher-battle.jpg';
+import b from '../../assets/photos/studio-headstand.jpg';
+import c from '../../assets/photos/school-collage.webp';
+import d from '../../assets/photos/checkerboard-freeze.webp';
+import e from '../../assets/photos/stage-crew.webp';
+import f from '../../assets/photos/childrens-museum-freeze.webp';
+import g from '../../assets/photos/create-your-escape.jpg';
+
+const frames = [
+  { src: a, alt: 'A young breaker in a low footwork position during a battle, surrounded by onlookers.', cap: 'The cypher', size: 'l', pos: '45% 50%' },
+  { src: b, alt: 'An instructor holds a headstand freeze while young students watch from the red floor of the studio.', cap: 'The lesson', size: 'w', pos: '40% 50%' },
+  { src: c, alt: 'A collage of Break Free students training, posing and dancing in class, framed by bright paint splashes.', cap: 'The school', size: 'free', pos: '50% 50%' },
+  { src: d, alt: 'A young b-boy in a freeze on a checkered floor under a spotlight.', cap: 'The freeze', size: 'm', pos: '50% 60%' },
+  { src: e, alt: 'Young dancers crouch and reach together on stage under purple light.', cap: 'The stage', size: 'sq', pos: '50% 50%' },
+  { src: f, alt: "A Break Free dancer performs outdoors at a children's museum event as kids copy his pose.", cap: 'The community', size: 'm', pos: '50% 40%' },
+  { src: g, alt: 'A student poses in front of the painted "Create Your Escape" door.', cap: 'The motto', size: 'l', pos: '50% 60%' },
+];
+---
+<section class="motion" data-hscroll aria-labelledby="motion-title">
+  <div class="motion__sticky">
+    <div class="motion__track" data-hscroll-track>
+      <div class="motion__intro">
+        <p class="eyebrow">Gallery — scroll</p>
+        <h2 class="display display--xxl" id="motion-title">Break<br />Free<br /><span class="outline-text">in motion</span></h2>
+        <p class="muted">Classes, cyphers, stages and streets. This is what it looks like when the culture moves.</p>
+      </div>
+      {frames.map((fr, i) => (
+        <figure class={`frame frame--${fr.size}`} style={`--i:${i}`}>
+          <div class={fr.size === 'free' ? 'frame__free' : 'frame__img media tone'}>
+            <Photo src={fr.src} alt={fr.alt} sizes="(min-width: 900px) 45vw, 80vw" widths={[480, 800, 1200, 1600]} position={fr.pos} />
+          </div>
+          <figcaption class="mono"><span>{String(i + 1).padStart(2, '0')}</span> {fr.cap}</figcaption>
+        </figure>
+      ))}
+      <div class="motion__outro">
+        <p class="display display--xl">Your<br />move<span class="t-school">.</span></p>
+        <a href="/first-class-free" class="btn btn--school btn--lg" data-magnetic>First class free →</a>
+      </div>
+    </div>
+    <div class="motion__progress" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<style>
+  .motion { position: relative; background: var(--ink); --hp: 0; }
+  .motion__sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+  .motion__track { display: flex; align-items: center; gap: clamp(2rem, 4vw, 5rem); padding-inline: var(--gutter) 8vw; will-change: transform; }
+  .motion__intro { flex: none; width: min(36rem, 80vw); display: grid; gap: 1.5rem; }
+  .motion__intro .muted { max-width: 30ch; }
+  .frame { flex: none; position: relative; display: grid; gap: 0.8rem; }
+  .frame__img { border-radius: 2px; }
+  .frame__img :global(img), .frame__free :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .frame:hover .frame__img :global(img) { transform: scale(1.04); }
+  .frame figcaption { color: var(--smoke); display: flex; gap: 0.75rem; }
+  .frame figcaption span { color: var(--bone); }
+  .frame--l .frame__img { width: clamp(20rem, 38vw, 44rem); aspect-ratio: 4 / 5; height: auto; max-height: 72svh; }
+  .frame--w .frame__img { width: clamp(24rem, 50vw, 60rem); aspect-ratio: 3 / 2; max-height: 62svh; align-self: start; }
+  .frame--w { align-self: flex-start; margin-top: 12svh; }
+  .frame--m .frame__img { width: clamp(16rem, 26vw, 30rem); aspect-ratio: 4 / 5; max-height: 54svh; }
+  .frame--m:nth-of-type(odd) { align-self: flex-end; margin-bottom: 10svh; }
+  .frame--sq .frame__img { width: clamp(16rem, 30vw, 34rem); aspect-ratio: 1; max-height: 60svh; }
+  .frame--sq { margin-left: -6vw; margin-top: 18svh; z-index: 2; }
+  .frame--free { margin-inline: -3vw; }
+  .frame__free { width: clamp(20rem, 34vw, 40rem); height: auto; }
+  .frame__free :global(img) { height: auto; max-height: 82svh; object-fit: contain; filter: drop-shadow(0 2rem 3rem rgba(0, 0, 0, 0.6)); }
+  .motion__outro { flex: none; display: grid; gap: 2rem; padding-left: 4vw; }
+  .motion__progress { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 2rem; height: 1px; background: rgba(239, 235, 228, 0.15); }
+  .motion__progress span { position: absolute; inset: 0; background: var(--school); transform-origin: left; transform: scaleX(var(--hp)); }
+
+  /* Mobile / tablet: native swipe with snap — light and thumb-friendly */
+  @media (max-width: 899px) {
+    .motion { padding-block: 5rem; }
+    .motion__sticky { position: static; height: auto; display: block; }
+    .motion__track { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-inline: 1rem; gap: 1rem; align-items: stretch; transform: none !important; }
+    .motion__track::-webkit-scrollbar { display: none; }
+    .motion__intro { width: 82vw; align-content: end; scroll-snap-align: start; }
+    .frame, .frame--w, .frame--m, .frame--sq, .frame--free { margin: 0; align-self: center; scroll-snap-align: center; }
+    .frame__img, .frame--l .frame__img, .frame--w .frame__img, .frame--m .frame__img, .frame--sq .frame__img { width: 78vw; aspect-ratio: 4 / 5; max-height: none; }
+    .frame__free { width: 82vw; }
+    .motion__outro { width: 78vw; align-content: center; padding-left: 0; scroll-snap-align: center; }
+    .motion__progress { display: none; }
+  }
+  :global(.no-js) .motion__sticky { position: static; height: auto; padding-block: 6rem; }
+  :global(.no-js) .motion__track { overflow-x: auto; }
+  @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
+    .motion__sticky { position: static; height: auto; padding-block: 6rem; }
+    .motion__track { overflow-x: auto; }
+  }
+</style>

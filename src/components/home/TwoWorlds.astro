@@ -1,0 +1,114 @@
+---
+import Photo from '../Photo.astro';
+import Arrow from '../Arrow.astro';
+import schoolMain from '../../assets/photos/checkerboard-freeze.webp';
+import schoolInset from '../../assets/photos/create-your-escape.jpg';
+import worldMain from '../../assets/photos/childrens-museum-freeze.webp';
+import worldInset from '../../assets/photos/cypher-battle.jpg';
+
+const worlds = [
+  {
+    key: 'school',
+    num: '01',
+    label: 'Break Free Hip-Hop School — Houston',
+    title: ['First', 'class', 'free.'],
+    statement: 'Train in the culture with people who live it.',
+    items: ['Hip-Hop School', 'Breaking', 'Classes', 'Private Lessons', 'Community', 'Youth Development'],
+    cta: { href: '/first-class-free', label: 'Start with your first class free' },
+    secondary: { href: '/school', label: 'Explore the school' },
+    main: schoolMain, mainAlt: 'A young b-boy holds an upside-down freeze on a checkered floor during a battle.', mainPos: '45% 50%',
+    inset: schoolInset, insetAlt: 'A student poses low in front of a roll-up door painted with the words "Create Your Escape".', insetPos: '50% 70%',
+  },
+  {
+    key: 'world',
+    num: '02',
+    label: 'Break Free Worldwide — Entertainment + Partnerships',
+    title: ['Bring', 'the', 'culture.'],
+    statement: 'Live hip-hop experiences for stages, schools, brands and communities.',
+    items: ['Live Performances', 'Dancers', 'DJs', 'School Assemblies', 'Corporate Events', 'Mobile Programming', 'Brand Activations', 'Strategic Partnerships'],
+    cta: { href: '/book', label: 'Work with Break Free' },
+    secondary: { href: '/partnerships', label: 'Partnerships' },
+    main: worldMain, mainAlt: "A Break Free dancer hits a freeze outside a children's museum while young fans strike poses behind him.", mainPos: '50% 45%',
+    inset: worldInset, insetAlt: 'A young breaker drops into footwork during a battle while dancers watch.', insetPos: '40% 50%',
+  },
+] as const;
+---
+<section class="worlds" aria-labelledby="worlds-title">
+  <h2 class="sr-only" id="worlds-title">Two worlds, one movement</h2>
+  {worlds.map((w, i) => (
+    <article class={`world world--${w.key} ${i % 2 ? 'world--flip' : ''}`} aria-labelledby={`world-${w.key}`}>
+      <div class="world__visual">
+        <span class="world__bignum display" aria-hidden="true" data-parallax="-0.12">{w.num}</span>
+        <div class="world__main media tone" data-reveal="mask" data-cursor-label={w.key === 'school' ? 'Train' : 'Book'}>
+          <a href={w.cta.href} tabindex="-1" aria-hidden="true">
+            <Photo src={w.main} alt={w.mainAlt} sizes="(min-width: 900px) 50vw, 100vw" position={w.mainPos} />
+          </a>
+        </div>
+        <div class="world__inset media" data-reveal="mask" style="--d:0.25" data-parallax="0.1">
+          <Photo src={w.inset} alt={w.insetAlt} sizes="(min-width: 900px) 22vw, 50vw" widths={[400, 640, 900]} position={w.insetPos} />
+        </div>
+      </div>
+
+      <div class="world__text">
+        <p class="mono world__label"><span class={`t-${w.key}`}>{w.num}</span> — {w.label}</p>
+        <h3 class="world__title split display display--xxl" id={`world-${w.key}`} data-split>
+          {w.title.map((t, j) => <span class="line"><span style={`--i:${j}`} class={j === 2 ? `t-${w.key}` : ''}>{t}</span></span>)}
+        </h3>
+        <p class="lede world__statement" data-reveal>{w.statement}</p>
+        <ul role="list" class="world__list" data-reveal style="--d:0.1">
+          {w.items.map((it) => <li>{it}</li>)}
+        </ul>
+        <div class="world__ctas" data-reveal style="--d:0.2">
+          <a href={w.cta.href} class={`btn btn--lg btn--${w.key}`} data-magnetic>{w.cta.label} <Arrow /></a>
+          <a href={w.secondary.href} class="link-line">{w.secondary.label} <Arrow /></a>
+        </div>
+      </div>
+    </article>
+  ))}
+</section>
+
+<style>
+  .worlds { background: var(--ink); padding-block: clamp(5rem, 10vw, 10rem); display: grid; gap: clamp(6rem, 14vw, 13rem); }
+  .world {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center;
+    gap: clamp(2rem, 6vw, 7rem); width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter);
+  }
+  .world--flip .world__visual { order: 2; }
+  .world__visual { position: relative; padding-bottom: 12%; }
+  .world__bignum {
+    position: absolute; z-index: 0; top: -0.2em; left: -0.06em; font-size: clamp(9rem, 26vw, 28rem); line-height: 0.75;
+    color: transparent; -webkit-text-stroke: 1px rgba(239, 235, 228, 0.22); transform: translateY(var(--py, 0));
+    pointer-events: none;
+  }
+  .world--flip .world__bignum { left: auto; right: -0.06em; }
+  .world__main { position: relative; z-index: 1; aspect-ratio: 4 / 5; width: 82%; margin-left: 10%; border-radius: 2px; }
+  .world--flip .world__main { margin-left: 8%; }
+  .world__main a { display: block; height: 100%; }
+  .world__main :global(img) { transition: transform 1.6s var(--ease-out), filter 1s var(--ease-out); }
+  .world__main:hover :global(img) { transform: scale(1.05); }
+  .world__inset {
+    position: absolute; z-index: 2; bottom: 0; right: 0; width: 42%; aspect-ratio: 3 / 4;
+    translate: 0 var(--py, 0); box-shadow: 0 2rem 4rem -1rem rgba(0, 0, 0, 0.7);
+  }
+  .world--flip .world__inset { right: auto; left: 0; }
+  .world__label { color: var(--smoke); margin-bottom: 1.5rem; }
+  .world__statement { margin-top: 1.75rem; }
+  .world__list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; max-width: 34rem; }
+  .world__list li {
+    padding: 0.45rem 0.9rem; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(239, 235, 228, 0.22);
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: background-color 0.4s, color 0.4s, box-shadow 0.4s;
+  }
+  .world--school .world__list li:hover { background: var(--school); color: var(--ink); box-shadow: none; }
+  .world--world .world__list li:hover { background: var(--world); color: var(--ink); box-shadow: none; }
+  .world__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2.5rem; }
+  @media (max-width: 899px) {
+    .world { grid-template-columns: 1fr; }
+    .world--flip .world__visual { order: 0; }
+    .world__main { width: 86%; margin-left: 0; }
+    .world--flip .world__main { margin-left: 14%; }
+    .world__inset { width: 46%; }
+    .world__title { font-size: clamp(3.4rem, 18vw, 6rem); }
+    .world__ctas .btn { width: 100%; }
+  }
+</style>

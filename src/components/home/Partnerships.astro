@@ -1,0 +1,60 @@
+---
+import Arrow from '../Arrow.astro';
+import Photo from '../Photo.astro';
+import bg from '../../assets/photos/cypher-battle.jpg';
+const audiences = ['Brands', 'Schools', 'Corporations', 'Events', 'Agencies', 'Communities', 'Creative partners'];
+---
+<section class="pship section" aria-labelledby="pship-title">
+  <div class="pship__bg" aria-hidden="true" data-parallax="0.1">
+    <Photo src={bg} alt="" sizes="100vw" widths={[800, 1280, 1920]} position="50% 40%" />
+  </div>
+  <div class="wrap pship__grid">
+    <div class="pship__left">
+      <p class="eyebrow" data-reveal><span class="t-world">02</span>&nbsp;Partnerships</p>
+      <h2 class="split display display--xxl" id="pship-title" data-split>
+        <span class="line"><span style="--i:0">Let's build</span></span>
+        <span class="line"><span style="--i:1">something</span></span>
+        <span class="line"><span style="--i:2" class="t-world">that moves.</span></span>
+      </h2>
+    </div>
+    <div class="pship__right">
+      <p class="lede" data-reveal>
+        From live entertainment and cultural programming to educational experiences and creative collaborations,
+        Break Free Worldwide partners with organizations that want to create meaningful experiences.
+      </p>
+      <ul role="list" class="pship__aud" aria-label="Who we work with">
+        {audiences.map((a, i) => (
+          <li data-reveal style={`--d:${i * 0.05}`}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{a}</li>
+        ))}
+      </ul>
+      <div class="pship__ctas" data-reveal>
+        <a href="/book?interest=partnership" class="btn btn--world btn--lg" data-magnetic>Start a conversation <Arrow /></a>
+        <a href="/partnerships" class="link-line">How we partner <Arrow /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pship { background: var(--ink); overflow: hidden; isolation: isolate; }
+  .pship__bg { position: absolute; inset: -10% 0; z-index: -1; opacity: 0.16; transform: translateY(var(--py, 0)); filter: grayscale(1) contrast(1.2); }
+  .pship__bg :global(img), .pship__bg :global(picture) { width: 100%; height: 100%; object-fit: cover; }
+  .pship::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%); }
+  .pship__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 7rem); align-items: start; }
+  .pship__left h2 { margin-top: 1.5rem; }
+  .pship__left { position: sticky; top: calc(var(--nav-h) + 3rem); }
+  .pship__aud { margin-top: 2.5rem; border-top: 1px solid rgba(239, 235, 228, 0.14); }
+  .pship__aud li {
+    display: flex; align-items: baseline; gap: 1.25rem; padding: 0.9rem 0; border-bottom: 1px solid rgba(239, 235, 228, 0.14);
+    font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 80; text-transform: uppercase;
+    font-size: clamp(1.4rem, 2.6vw, 2.4rem); line-height: 1; transition: color 0.4s, padding 0.6s var(--ease-out);
+  }
+  .pship__aud li .mono { color: var(--smoke); font-weight: 400; }
+  .pship__aud li:hover { color: var(--world); padding-left: 0.75rem; }
+  .pship__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; margin-top: 2.5rem; }
+  @media (max-width: 899px) {
+    .pship__grid { grid-template-columns: 1fr; }
+    .pship__left { position: static; }
+    .pship__ctas .btn { width: 100%; }
+  }
+</style>

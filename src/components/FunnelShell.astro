@@ -1,0 +1,63 @@
+---
+import type { ImageMetadata } from 'astro';
+import Photo from './Photo.astro';
+
+interface Props {
+  accent: 'school' | 'world';
+  image: ImageMetadata;
+  imageAlt: string;
+  imagePos?: string;
+  eyebrow: string;
+  title: string[];
+  lede: string;
+  perks: string[];
+}
+const { accent, image, imageAlt, imagePos, eyebrow, title, lede, perks } = Astro.props;
+---
+<section class={`funnel funnel--${accent}`} data-funnel-hide style={`--field-accent: var(--${accent})`}>
+  <aside class="funnel__visual">
+    <div class="funnel__img media grain">
+      <Photo src={image} alt={imageAlt} eager sizes="(min-width: 1000px) 45vw, 100vw" position={imagePos} />
+    </div>
+    <div class="funnel__intro">
+      <p class="mono funnel__eyebrow">{eyebrow}</p>
+      <h1 class="display funnel__title">
+        {title.map((t, i) => <span class="hero-line"><span style={`animation-delay:${i * 0.08}s`} class={i === title.length - 1 ? `t-${accent}` : ''}>{t}</span></span>)}
+      </h1>
+      <p class="funnel__lede">{lede}</p>
+      <ul role="list" class="funnel__perks mono">
+        {perks.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </aside>
+
+  <div class="funnel__main">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .funnel { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); min-height: 100svh; background: var(--ink); }
+  .funnel__visual { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: flex-end; isolation: isolate; }
+  .funnel__img { position: absolute; inset: 0; z-index: -1; }
+  .funnel__img :global(img) { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.35) contrast(1.05) brightness(0.8); animation: fimg 2.2s var(--ease-out) both; }
+  .funnel__img::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(10,10,10,0.55), rgba(10,10,10,0.05) 35%, rgba(10,10,10,0.92)); }
+  .funnel__intro { padding: var(--gutter); padding-bottom: clamp(2rem, 5vw, 4rem); display: grid; gap: 1.25rem; }
+  .funnel__eyebrow { color: rgba(239, 235, 228, 0.8); }
+  .funnel__title { font-size: clamp(3rem, 7.2vw, 8rem); color: var(--white); }
+  .hero-line { display: block; overflow: hidden; padding-bottom: 0.03em; }
+  .hero-line > span { display: inline-block; animation: rise 1.2s var(--ease-out) both; }
+  .funnel__lede { max-width: 34ch; font-size: var(--fs-m); line-height: 1.35; color: rgba(239, 235, 228, 0.88); }
+  .funnel__perks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .funnel__perks li { padding: 0.45rem 0.85rem; border-radius: 999px; background: rgba(10, 10, 10, 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px rgba(239, 235, 228, 0.2); }
+  .funnel__perks li::before { content: '✦ '; color: var(--field-accent); }
+  .funnel__main { padding: calc(var(--nav-h) + clamp(2rem, 5vw, 4rem)) var(--gutter) clamp(3rem, 6vw, 5rem); display: grid; align-content: start; }
+  @keyframes rise { from { transform: translateY(105%); } }
+  @keyframes fimg { from { transform: scale(1.15); } }
+  @media (max-width: 999px) {
+    .funnel { grid-template-columns: 1fr; }
+    .funnel__visual { position: relative; height: auto; min-height: 30rem; padding-top: var(--nav-h); }
+    .funnel__title { font-size: clamp(3rem, 15vw, 6rem); }
+    .funnel__main { padding-top: 2.5rem; }
+  }
+</style>

@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Thanks from '../../components/Thanks.astro';
+---
+<Layout title="Inquiry received" focus>
+  <meta name="robots" content="noindex" slot="head" />
+  <Thanks accent="world" eyebrow="Inquiry received" title="Let's move" lede="Thanks for reaching out. Our team will review your request and follow up personally." cta={{ href: '/entertainment', label: 'See what we do' }} />
+</Layout>

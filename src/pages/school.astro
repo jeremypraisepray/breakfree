@@ -1,0 +1,200 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+import FinalCta from '../components/FinalCta.astro';
+import site from '../data/site.json';
+import hero from '../assets/photos/checkerboard-freeze.webp';
+import collage from '../assets/photos/school-collage.webp';
+
+const programs = (await getCollection('programs', (p) => !p.data.draft)).sort((a, b) => a.data.order - b.data.order);
+
+const faqs = [
+  ['Is the first class really free?', 'Yes. Claim your spot online, we confirm a time with you, and your first class is on us.'],
+  ['Do I need dance experience?', 'No. Classes welcome complete beginners — everyone starts somewhere. Instructors meet you at your level.'],
+  ['What should I wear?', 'Comfortable clothes you can move in, clean sneakers and a water bottle.'],
+  ['Where are you located?', `${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postalCode}.`],
+  ['When are classes?', `${site.hours.map((h) => `${h.days}, ${h.time}`).join('; ')}. We'll help you find the right class time when we confirm your free class.`],
+  ['Do you offer private lessons?', 'Yes — one-on-one coaching is available by appointment for any level.'],
+];
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+<Layout
+  title="Hip-Hop & Breaking Classes in Houston"
+  description="Break Free Hip-Hop School in Houston, TX: breaking, hip-hop dance, youth programs and private lessons rooted in authentic hip-hop culture. Your first class is free."
+  image={hero}
+  schema={[faqLd]}
+>
+  <PageHero
+    accent="school"
+    eyebrow="01 — Break Free Hip-Hop School · Houston, TX"
+    title={['Move', 'different.']}
+    lede="Breaking and hip-hop classes rooted in the culture — for dancers who want more than steps."
+    image={hero}
+    imageAlt="A young b-boy holds a freeze on a checkered floor under a spotlight while judges watch."
+    imagePos="50% 55%"
+  >
+    <a href="/first-class-free" class="btn btn--school btn--lg" data-magnetic>Get your first class free <Arrow /></a>
+    <a href="#programs" class="link-line">View classes <Arrow dir="down" /></a>
+  </PageHero>
+
+  <!-- Offer -->
+  <section class="offer section--tight">
+    <div class="wrap offer__grid">
+      <h2 class="display display--l" data-reveal>Your first class<br /><span class="t-school">is on us.</span></h2>
+      <ol class="offer__steps" role="list">
+        <li data-reveal><span class="mono t-school">01</span><h3>Claim it</h3><p class="muted">Sixty seconds online.</p></li>
+        <li data-reveal style="--d:0.08"><span class="mono t-school">02</span><h3>We confirm</h3><p class="muted">We match you to the right class.</p></li>
+        <li data-reveal style="--d:0.16"><span class="mono t-school">03</span><h3>Show up &amp; move</h3><p class="muted">No experience needed.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section class="programs section" id="programs" aria-labelledby="programs-title">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Programs</p>
+      <h2 class="split display display--xl programs__title" id="programs-title" data-split>
+        <span class="line"><span style="--i:0">Find your</span></span>
+        <span class="line"><span style="--i:1" class="outline-text">movement</span></span>
+      </h2>
+
+      <div class="programs__list">
+        {programs.map((p, i) => (
+          <article class={`prog ${i % 2 ? 'prog--flip' : ''}`} aria-labelledby={`prog-${p.id}`}>
+            <div class="prog__img media tone" data-reveal="mask">
+              <Photo src={p.data.image} alt={p.data.imageAlt} sizes="(min-width: 900px) 45vw, 100vw" widths={[480, 800, 1200]} />
+            </div>
+            <div class="prog__body">
+              <p class="mono prog__kicker"><span class="t-school">{String(i + 1).padStart(2, '0')}</span> — {p.data.kicker}</p>
+              <h3 class="display display--xl" id={`prog-${p.id}`} data-reveal>{p.data.title}</h3>
+              <p class="lede" data-reveal>{p.data.summary}</p>
+              <dl class="prog__meta mono" data-reveal>
+                <div><dt>Who</dt><dd>{p.data.audience}</dd></div>
+                <div><dt>Level</dt><dd>{p.data.level}</dd></div>
+                {p.data.schedule && <div><dt>When</dt><dd>{p.data.schedule}</dd></div>}
+              </dl>
+              <a href={`/first-class-free?program=${p.id}`} class="link-line" data-reveal>
+                {p.id === 'private-lessons' ? 'Request a private lesson' : `Try ${p.data.title} free`} <Arrow />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Culture statement with collage -->
+  <section class="culture section section--paper" aria-labelledby="culture-title">
+    <div class="wrap culture__grid">
+      <div>
+        <p class="eyebrow" data-reveal>More than class</p>
+        <h2 class="split display display--xl" id="culture-title" data-split>
+          <span class="line"><span style="--i:0">Confidence.</span></span>
+          <span class="line"><span style="--i:1">Community.</span></span>
+          <span class="line"><span style="--i:2" class="outline-text">Culture.</span></span>
+        </h2>
+        <p class="lede" data-reveal style="margin-top:2rem">
+          Hip-hop is a vehicle for growth. Students build discipline, creativity and self-expression — and a crew that has their back.
+        </p>
+        <ul role="list" class="culture__list" data-reveal>
+          <li><strong>Real culture</strong><span class="muted">History, music and cypher etiquette — not just choreography.</span></li>
+          <li><strong>Community first</strong><span class="muted">A supportive floor where every level belongs.</span></li>
+          <li><strong>Room to grow</strong><span class="muted">From first class to battles, showcases and performances.</span></li>
+        </ul>
+      </div>
+      <div class="culture__collage" data-parallax="-0.08">
+        <Photo src={collage} alt="A collage of Break Free students: breaking in class, posing with a boombox and dancing on a checkered floor." sizes="(min-width: 900px) 45vw, 100vw" widths={[480, 800, 950]} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Visit + FAQ -->
+  <section class="visit section" aria-labelledby="visit-title">
+    <div class="wrap visit__grid">
+      <div>
+        <p class="eyebrow" data-reveal>Visit</p>
+        <h2 class="display display--l" id="visit-title" data-reveal>Pull up<span class="t-school">.</span></h2>
+        <address class="visit__addr" data-reveal>
+          <a href={site.address.mapUrl} target="_blank" rel="noopener">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</a>
+        </address>
+        {site.hours.map((h) => <p class="mono muted">{h.days} · {h.time}</p>)}
+        <a href={site.address.mapUrl} target="_blank" rel="noopener" class="link-line" style="margin-top:1.5rem">Get directions <Arrow dir="up-right" /></a>
+      </div>
+      <div class="faq">
+        <h2 class="sr-only">Frequently asked questions</h2>
+        {faqs.map(([q, a]) => (
+          <details class="faq__item">
+            <summary><span>{q}</span><i aria-hidden="true"></i></summary>
+            <div class="faq__a"><p class="muted">{a}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FinalCta />
+</Layout>
+
+<style>
+  .offer { background: var(--school); color: var(--ink); }
+  .offer__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem 4rem; align-items: end; }
+  .offer .t-school { color: var(--ink); -webkit-text-stroke: 0; opacity: 0.55; }
+  .offer__steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  .offer__steps li { border-top: 1px solid rgba(0, 0, 0, 0.25); padding-top: 1rem; display: grid; gap: 0.4rem; }
+  .offer__steps .mono { opacity: 0.6; }
+  .offer__steps h3 { font-size: 1.5rem; }
+  .offer__steps .muted { color: rgba(0, 0, 0, 0.65); }
+
+  .programs__title { margin-top: 1.5rem; }
+  .programs__list { display: grid; gap: clamp(4rem, 9vw, 8rem); margin-top: clamp(3rem, 7vw, 6rem); }
+  .prog { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+  .prog--flip .prog__img { order: 2; }
+  .prog__img { aspect-ratio: 5 / 4; }
+  .prog__body { display: grid; gap: 1.25rem; justify-items: start; }
+  .prog__kicker { color: var(--smoke); }
+  .prog__meta { display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; padding-block: 1rem; border-block: 1px solid rgba(239, 235, 228, 0.14); width: 100%; }
+  .prog__meta dt { color: var(--smoke); margin-bottom: 0.35rem; }
+
+  .culture__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .culture__grid h2 { margin-top: 1.5rem; }
+  .culture__list { margin-top: 2.5rem; display: grid; gap: 1.25rem; }
+  .culture__list li { display: grid; gap: 0.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(0, 0, 0, 0.15); }
+  .culture__list strong { font-family: var(--font-display); text-transform: uppercase; font-variation-settings: 'wdth' 85; font-size: 1.25rem; }
+  .culture__collage { transform: translateY(var(--py, 0)); }
+  .culture__collage :global(img) { width: 100%; height: auto; filter: drop-shadow(0 2rem 3rem rgba(0, 0, 0, 0.25)); }
+
+  .visit__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 6rem); }
+  .visit__grid h2 { margin: 1.5rem 0 1.5rem; }
+  .visit__addr { font-style: normal; font-size: var(--fs-m); line-height: 1.3; margin-bottom: 1rem; }
+  .faq { border-top: 1px solid rgba(239, 235, 228, 0.14); }
+  .faq__item { border-bottom: 1px solid rgba(239, 235, 228, 0.14); }
+  .faq__item summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: 1.4rem 0;
+    font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 85; text-transform: uppercase; font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary i { position: relative; width: 1rem; height: 1rem; flex: none; }
+  .faq__item summary i::before, .faq__item summary i::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform 0.5s var(--spring); }
+  .faq__item summary i::after { transform: rotate(90deg); }
+  .faq__item[open] summary i::after { transform: rotate(0deg); }
+  .faq__item summary:hover { color: var(--school); }
+  .faq__a { padding-bottom: 1.5rem; max-width: 52ch; }
+  @supports (interpolate-size: allow-keywords) {
+    .faq { interpolate-size: allow-keywords; }
+    .faq__item::details-content { height: 0; overflow: clip; transition: height 0.5s var(--ease-out), content-visibility 0.5s allow-discrete; }
+    .faq__item[open]::details-content { height: auto; }
+  }
+
+  @media (max-width: 899px) {
+    .offer__grid, .prog, .culture__grid, .visit__grid { grid-template-columns: 1fr; }
+    .offer__steps { grid-template-columns: 1fr; }
+    .prog--flip .prog__img { order: 0; }
+  }
+</style>

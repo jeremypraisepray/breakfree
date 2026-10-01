@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import FinalCta from '../components/FinalCta.astro';
+import site from '../data/site.json';
+import hero from '../assets/photos/studio-headstand.jpg';
+import door from '../assets/photos/create-your-escape.jpg';
+
+const identities = ['A hip-hop school', 'A performance organization', 'An entertainment service', 'An educational platform', 'A community', 'A cultural movement', 'A creative partner'];
+const pillars = ['Culture', 'Competition', 'Creativity', 'Entertainment', 'Lifestyle', 'Education', 'Community'];
+---
+<Layout
+  title="About"
+  description="Founded in Houston in 2011, Break Free Worldwide combines culture, competition, creativity, entertainment, lifestyle, education and community through hip-hop."
+  image={hero}
+>
+  <PageHero
+    eyebrow={`About — Houston, Texas · Est. ${site.founded}`}
+    title={['Culture.', 'Movement.', '<span class="outline-text">Freedom.</span>']}
+    lede="Break Free Worldwide is a Houston-based organization built on hip-hop — and on the belief that movement can change how people see themselves."
+    image={hero}
+    imageAlt="Inside the studio: an instructor holds a headstand freeze as young students watch from a red floor."
+    imagePos="40% 45%"
+  />
+
+  <section class="section" aria-labelledby="is-title">
+    <div class="wrap is">
+      <div>
+        <p class="eyebrow" data-reveal>Who we are</p>
+        <h2 class="display display--l" id="is-title" data-reveal style="margin-top:1.5rem">Break Free is more than a dance school. It is —</h2>
+      </div>
+      <ol role="list" class="is__list">
+        {identities.map((t, i) => (
+          <li data-reveal style={`--d:${i * 0.04}`}><span class="mono">{String(i + 1).padStart(2, '0')}</span>{t}</li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--paper" aria-labelledby="escape-title">
+    <div class="wrap escape">
+      <div class="escape__img media" data-reveal="mask">
+        <Photo src={door} alt={'A young dancer poses low in front of a roll-up door painted with the words "Create Your Escape".'} sizes="(min-width: 900px) 45vw, 100vw" widths={[480, 800, 950]} position="50% 40%" />
+      </div>
+      <div class="escape__copy">
+        <p class="eyebrow" data-reveal>Our motto</p>
+        <h2 class="split display display--xxl" id="escape-title" data-split>
+          <span class="line"><span style="--i:0">Create</span></span>
+          <span class="line"><span style="--i:1">your</span></span>
+          <span class="line"><span style="--i:2" class="outline-text">escape.</span></span>
+        </h2>
+        <p class="lede" data-reveal style="margin-top:2rem">
+          Since {site.founded}, we've brought together {pillars.slice(0, -1).join(', ').toLowerCase()} and {pillars.at(-1)!.toLowerCase()} —
+          giving people a place to train, perform, connect and express who they are.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="What drives us">
+    <div class="wrap">
+      <p class="pillars" data-reveal>
+        {pillars.map((p, i) => <span class={i % 2 ? 'outline-text' : ''}>{p}</span>)}
+      </p>
+    </div>
+  </section>
+
+  <FinalCta />
+</Layout>
+
+<style>
+  .is { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 7rem); align-items: start; }
+  .is > div:first-child { position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .is__list { border-top: 1px solid rgba(239, 235, 228, 0.14); }
+  .is__list li {
+    display: flex; gap: 1.5rem; align-items: baseline; padding: 1.1rem 0; border-bottom: 1px solid rgba(239, 235, 228, 0.14);
+    font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 72; text-transform: uppercase;
+    font-size: clamp(1.8rem, 4vw, 4rem); line-height: 1; transition: color 0.4s;
+  }
+  .is__list li .mono { color: var(--smoke); font-weight: 400; }
+  .is__list li:nth-child(odd):hover { color: var(--school); }
+  .is__list li:nth-child(even):hover { color: var(--world); }
+  .escape { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .escape__img { aspect-ratio: 4 / 5; }
+  .escape h2 { margin-top: 1.5rem; }
+  .pillars { display: flex; flex-wrap: wrap; gap: 0.1em 0.4em; font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 72; text-transform: uppercase; font-size: clamp(2.6rem, 7vw, 7rem); line-height: 0.95; }
+  @media (max-width: 899px) {
+    .is, .escape { grid-template-columns: 1fr; }
+    .is > div:first-child { position: static; }
+  }
+</style>

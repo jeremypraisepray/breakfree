@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Arrow from '../components/Arrow.astro';
+import FinalCta from '../components/FinalCta.astro';
+import hero from '../assets/photos/cypher-battle.jpg';
+
+const services = (await getCollection('services', (s) => !s.data.draft && s.data.path === 'worldwide')).sort((a, b) => a.data.order - b.data.order);
+const audiences = ['Schools & districts', 'Corporations', 'Festivals', 'Museums & libraries', 'Brands', 'Venues', 'Communities', 'Private events'];
+const steps = [
+  ['Tell us', 'Share your date, audience and goals in a quick inquiry.'],
+  ['We design', 'We shape the right mix of dancers, DJs and programming.'],
+  ['We bring it', 'Show up, set up and deliver an experience people remember.'],
+];
+---
+<Layout
+  title="Live Hip-Hop Entertainment & Programming"
+  description="Book Break Free Worldwide for live hip-hop performances, dancers, DJs, school assemblies, corporate events, mobile programming and brand activations in Houston and beyond."
+  image={hero}
+>
+  <PageHero
+    accent="world"
+    eyebrow="02 — Break Free Worldwide · Entertainment"
+    title={['Bring the', 'culture.']}
+    lede="Dancers, DJs and hip-hop experiences for stages, schools, brands and communities."
+    image={hero}
+    imageAlt="A young breaker in a low footwork position during a battle as a crowd and DJ look on."
+    imagePos="45% 45%"
+  >
+    <a href="/book" class="btn btn--world btn--lg" data-magnetic>Book Break Free <Arrow /></a>
+    <a href="/partnerships" class="link-line">Partner with us <Arrow /></a>
+  </PageHero>
+
+  <section class="section--tight statement">
+    <div class="wrap">
+      <p class="display display--l" data-reveal>Not just a booking.<br /><span class="muted">An experience built around your audience.</span></p>
+    </div>
+  </section>
+
+  <section class="offers" aria-labelledby="offers-title">
+    <h2 class="sr-only" id="offers-title">What we offer</h2>
+    {services.map((s, i) => (
+      <article class="offer-row" aria-labelledby={`o-${s.id}`}>
+        <div class="wrap offer-row__grid">
+          <span class="offer-row__num display" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div class="offer-row__body">
+            <h3 class="display display--xl" id={`o-${s.id}`} data-reveal>{s.data.title}</h3>
+            <p class="lede" data-reveal>{s.data.summary}</p>
+            <ul role="list" class="offer-row__tags mono" data-reveal>
+              {s.data.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+            <a href={s.data.link} class="link-line" data-reveal>{s.data.link.startsWith('/book') ? 'Book this' : 'Learn more'} <Arrow /></a>
+          </div>
+          <div class="offer-row__img media tone" data-reveal="mask">
+            <Photo src={s.data.image} alt={s.data.imageAlt} sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 800, 1200]} />
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+
+  <section class="section section--paper" aria-labelledby="aud-title">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Who we work with</p>
+      <h2 class="display display--l" id="aud-title" data-reveal style="margin-top:1.5rem">Built for any stage.</h2>
+      <ul role="list" class="aud">
+        {audiences.map((a, i) => <li data-reveal style={`--d:${i * 0.04}`}>{a}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-title">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>How it works</p>
+      <h2 class="display display--xl" id="how-title" data-reveal style="margin-top:1.5rem">Three steps<span class="t-world">.</span></h2>
+      <ol role="list" class="how">
+        {steps.map(([t, d], i) => (
+          <li data-reveal style={`--d:${i * 0.08}`}>
+            <span class="mono t-world">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{t}</h3>
+            <p class="muted">{d}</p>
+          </li>
+        ))}
+      </ol>
+      <a href="/book" class="btn btn--world btn--lg" data-magnetic style="margin-top:3rem">Start your booking <Arrow /></a>
+    </div>
+  </section>
+
+  <FinalCta />
+</Layout>
+
+<style>
+  .statement .muted { color: var(--smoke); }
+  .offer-row { border-top: 1px solid rgba(239, 235, 228, 0.12); padding-block: clamp(3rem, 7vw, 6rem); }
+  .offer-row__grid { display: grid; grid-template-columns: 6rem minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+  .offer-row__num { font-size: 2.5rem; color: var(--world); align-self: start; }
+  .offer-row__body { display: grid; gap: 1.25rem; justify-items: start; }
+  .offer-row__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .offer-row__tags li { padding: 0.4rem 0.8rem; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(239, 235, 228, 0.22); }
+  .offer-row__img { aspect-ratio: 4 / 3; }
+  .aud { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 3rem; border-top: 1px solid rgba(0, 0, 0, 0.15); }
+  .aud li { padding: 1.5rem 1rem 1.5rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.15); font-family: var(--font-display); font-weight: 700; font-variation-settings: 'wdth' 80; text-transform: uppercase; font-size: clamp(1.1rem, 1.8vw, 1.6rem); }
+  .how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .how li { display: grid; gap: 0.6rem; padding-top: 1.25rem; border-top: 1px solid rgba(239, 235, 228, 0.18); }
+  .how h3 { font-size: clamp(1.5rem, 2.4vw, 2.2rem); }
+  @media (max-width: 899px) {
+    .offer-row__grid { grid-template-columns: 1fr; }
+    .offer-row__img { order: -1; }
+    .offer-row__num { display: none; }
+    .aud { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .how { grid-template-columns: 1fr; }
+    .how + .btn, .section .btn--lg { width: 100%; }
+  }
+</style>

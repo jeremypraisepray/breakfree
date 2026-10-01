@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+---
+<Layout title="Page not found">
+  <meta name="robots" content="noindex" slot="head" />
+  <section class="success">
+    <div class="wrap">
+      <p class="eyebrow">404 — Wrong turn</p>
+      <h1 class="display" style="font-size: var(--fs-mega)">Off the<br /><span class="outline-text">beat.</span></h1>
+      <p class="lede" style="margin-top:1.5rem">This page doesn't exist. Pick a path and get back in the cypher.</p>
+      <div class="success__ctas">
+        <a href="/first-class-free" class="btn btn--school">First class free <Arrow /></a>
+        <a href="/book" class="btn btn--world">Book Break Free <Arrow /></a>
+        <a href="/" class="btn btn--ghost">Home <Arrow /></a>
+      </div>
+    </div>
+  </section>
+</Layout>

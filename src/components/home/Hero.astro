@@ -1,0 +1,160 @@
+---
+import Photo from '../Photo.astro';
+import Arrow from '../Arrow.astro';
+import schoolImg from '../../assets/photos/studio-headstand.jpg';
+import worldImg from '../../assets/photos/stage-crew.webp';
+---
+<section class="hero" data-hero aria-labelledby="hero-title">
+  <div class="hero__meta wrap mono" aria-hidden="true">
+    <span>Break Free Worldwide</span>
+    <span>Est. 2011</span>
+    <span>Houston, Texas</span>
+  </div>
+
+  <h1 class="hero__title display display--mega" id="hero-title">
+    <span class="sr-only">Break Free Worldwide — </span>
+    <span class="hero__line"><span>Create your</span></span>
+    <span class="hero__line"><span>escape<span class="t-school">.</span></span></span>
+  </h1>
+
+  <div class="paths" data-paths id="paths">
+    <p class="paths__label mono" aria-hidden="true"><span>Choose your way into Break Free</span></p>
+
+    <article class="path path--school" data-path="school" aria-labelledby="path-school-title">
+      <div class="path__media grain" aria-hidden="true">
+        <div class="path__img" data-parallax="0.08">
+          <Photo src={schoolImg} alt="" eager sizes="(min-width: 900px) 70vw, 100vw" position="42% 40%" />
+        </div>
+      </div>
+      <div class="path__body">
+        <p class="path__num mono"><span class="t-school">01</span> — Break Free Hip-Hop School · Houston, TX</p>
+        <h2 class="path__title display" id="path-school-title">First class<br />free</h2>
+        <p class="path__copy">Step into the culture. Train with us. Find your movement.</p>
+        <div class="path__ctas">
+          <a href="/first-class-free" class="btn btn--school btn--lg" data-magnetic>Get your first class free <Arrow /></a>
+          <a href="/school" class="link-line path__secondary">Explore the school <Arrow /></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="path path--world" data-path="world" aria-labelledby="path-world-title">
+      <div class="path__media grain" aria-hidden="true">
+        <div class="path__img" data-parallax="0.08">
+          <Photo src={worldImg} alt="" eager sizes="(min-width: 900px) 70vw, 100vw" position="50% 35%" />
+        </div>
+      </div>
+      <div class="path__body">
+        <p class="path__num mono"><span class="t-world">02</span> — Break Free Worldwide</p>
+        <h2 class="path__title display" id="path-world-title">Entertainment<br />+ partnerships</h2>
+        <p class="path__copy">Bring the culture to your stage, organization, event or brand.</p>
+        <div class="path__ctas">
+          <a href="/book" class="btn btn--world btn--lg" data-magnetic>Book Break Free <Arrow /></a>
+          <a href="/partnerships" class="link-line path__secondary">Partner with us <Arrow /></a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; background: var(--ink); isolation: isolate; }
+  .hero__meta {
+    position: absolute; z-index: 3; top: calc(var(--nav-h) + 0.25rem); left: 0; right: 0;
+    display: flex; justify-content: space-between; gap: 1rem; color: rgba(239, 235, 228, 0.75); pointer-events: none;
+    animation: fade 1s 0.9s var(--ease-out) both;
+  }
+  .hero__title {
+    position: absolute; z-index: 3; left: 0; right: 0; top: calc(var(--nav-h) + 2.25rem);
+    padding-inline: var(--gutter); pointer-events: none; color: var(--white);
+    text-shadow: 0 0.04em 0.4em rgba(0, 0, 0, 0.25);
+  }
+  .hero__line { display: block; overflow: hidden; padding-bottom: 0.03em; }
+  .hero__line > span { display: inline-block; animation: rise 1.3s var(--ease-out) both; }
+  .hero__line:nth-child(3) > span { animation-delay: 0.12s; }
+  .hero__line:nth-child(3) { padding-left: 12vw; }
+
+  .paths { position: relative; display: flex; height: max(100svh, 680px); }
+  .paths__label {
+    position: absolute; z-index: 4; left: 50%; bottom: 2rem; translate: -50% 0;
+    padding: 0.55rem 1rem; border-radius: 999px; background: rgba(10, 10, 10, 0.6);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); white-space: nowrap; color: var(--bone);
+    pointer-events: none; animation: fade 1s 1.4s var(--ease-out) both; transition: opacity 0.5s;
+  }
+  .paths[data-active] .paths__label { opacity: 0; }
+
+  .path {
+    --mx: 0; --my: 0;
+    position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: flex-grow 1.1s var(--spring);
+    animation: panel-in 1.4s var(--ease-io) both;
+  }
+  .path--world { animation-delay: 0.1s; border-left: 1px solid rgba(239, 235, 228, 0.12); }
+  .paths[data-active='school'] .path--school, .paths[data-active='world'] .path--world { flex-grow: 1.7; }
+
+  .path__media { position: absolute; inset: 0; z-index: -1; }
+  .path__img {
+    position: absolute; top: -4%; bottom: -4%; left: 50%; width: max(100%, 72vw); translate: -50% 0;
+    transform: translate3d(calc(var(--mx) * -2.2%), calc(var(--my) * -2%), 0) scale(1.08);
+    transition: transform 1.4s var(--ease-out), filter 1s var(--ease-out);
+    filter: grayscale(0.45) contrast(1.06) brightness(0.8);
+    animation: img-in 2.2s var(--ease-out) both;
+  }
+  .path__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .path__media::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.1) 34%, rgba(10,10,10,0.15) 52%, rgba(10,10,10,0.92) 100%);
+    transition: background-color 0.8s var(--ease-out);
+  }
+  .paths[data-active='school'] .path--school .path__img, .paths[data-active='world'] .path--world .path__img {
+    filter: grayscale(0) contrast(1.05) brightness(0.95); transform: translate3d(calc(var(--mx) * -3%), calc(var(--my) * -2.5%), 0) scale(1.02);
+  }
+  .paths[data-active='school'] .path--world .path__img, .paths[data-active='world'] .path--school .path__img { filter: grayscale(1) brightness(0.45); }
+  .paths[data-active='school'] .path--world .path__media::before, .paths[data-active='world'] .path--school .path__media::before { background-color: rgba(10, 10, 10, 0.35); }
+
+  .path__body {
+    position: relative; padding: 0 var(--gutter) 5.5rem; max-width: 46rem;
+    transition: opacity 0.8s var(--ease-out), transform 1s var(--ease-out);
+    animation: rise-soft 1.2s 0.6s var(--ease-out) both;
+  }
+  .paths[data-active='school'] .path--world .path__body, .paths[data-active='world'] .path--school .path__body { opacity: 0.45; transform: translateY(0.75rem); }
+  .path__num { color: rgba(239, 235, 228, 0.8); margin-bottom: 1rem; }
+  .path__title {
+    font-size: clamp(2.6rem, 5.4vw, 6.4rem); color: var(--white);
+    transition: font-variation-settings 1s var(--ease-out), letter-spacing 1s var(--ease-out);
+  }
+  .paths[data-active='school'] .path--school .path__title, .paths[data-active='world'] .path--world .path__title { font-variation-settings: 'wdth' 88; letter-spacing: -0.025em; }
+  .path__copy { margin-top: 1rem; max-width: 30ch; font-size: clamp(1.05rem, 1.3vw, 1.3rem); color: rgba(239, 235, 228, 0.85); }
+  .path__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; margin-top: 1.75rem; }
+  .path__ctas .btn { transition: transform 0.6s var(--spring), box-shadow 0.6s var(--ease-out), color 0.45s var(--ease-out); }
+  .paths[data-active='school'] .path--school .btn, .paths[data-active='world'] .path--world .btn { box-shadow: 0 1.2rem 3rem -1rem rgba(0, 0, 0, 0.6); }
+
+  @keyframes rise { from { transform: translateY(105%); } }
+  @keyframes rise-soft { from { opacity: 0; transform: translateY(1.5rem); } }
+  @keyframes fade { from { opacity: 0; } }
+  @keyframes panel-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes img-in { from { transform: scale(1.3); } }
+
+  /* ----- tablet / mobile: two stacked cinematic cards ----- */
+  @media (max-width: 899px) {
+    .hero { padding-top: calc(var(--nav-h) + 0.5rem); }
+    .hero__meta { position: relative; top: 0; font-size: 0.65rem; margin-bottom: 0.9rem; }
+    .hero__meta span:first-child { display: none; }
+    .hero__title { position: relative; top: 0; font-size: clamp(3.4rem, 17vw, 7rem); margin-bottom: 1.25rem; }
+    .hero__line:nth-child(3) { padding-left: 0; }
+    .paths { flex-direction: column; height: auto; gap: 0.6rem; padding: 0 0.6rem 0.6rem; }
+    .paths__label { display: none; }
+    .path { min-height: max(20rem, 42svh); border-radius: 1.25rem; flex: none; border-left: 0; }
+    .path__img { width: 100%; left: 0; translate: none; top: -8%; bottom: -8%; transform: translate3d(0, var(--py, 0px), 0) scale(1.05); filter: grayscale(0.2) contrast(1.05) brightness(0.85); }
+    .path__body { padding: 0 1.25rem 1.4rem; }
+    .path__num { margin-bottom: 0.6rem; font-size: 0.65rem; }
+    .path__title { font-size: clamp(2.3rem, 11vw, 4rem); }
+    .path__copy { margin-top: 0.6rem; font-size: 1rem; }
+    .path__ctas { margin-top: 1.1rem; gap: 0.5rem 1.25rem; }
+    .path__ctas .btn { min-height: 3.4rem; font-size: 0.9rem; padding: 0 1.25rem; }
+  }
+  @media (max-width: 420px) {
+    .path__secondary { font-size: 0.8rem; }
+  }
+</style>
