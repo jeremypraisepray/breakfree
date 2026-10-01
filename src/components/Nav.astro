@@ -36,7 +36,7 @@ const isActive = (h: string) => path === h || path.startsWith(h + '/');
 <div class="menu" id="menu" data-menu hidden>
   <div class="menu__bg" aria-hidden="true"></div>
   <nav class="menu__inner wrap" aria-label="Mobile">
-    <p class="mono menu__meta">Houston, TX — Est. 2011</p>
+    <p class="mono menu__meta">Choose your path</p>
     <ul role="list" class="menu__primary">
       <li style="--i:0"><a href="/first-class-free"><span class="mono t-school">01</span>First class free</a></li>
       <li style="--i:1"><a href="/entertainment"><span class="mono t-world">02</span>Entertainment</a></li>
@@ -65,7 +65,10 @@ const isActive = (h: string) => path === h || path.startsWith(h + '/');
   :global(.is-scrolled) .nav::after { opacity: 1; }
   :global(.nav-hidden) .nav { transform: translateY(-100%); }
   .nav__inner { height: 100%; display: flex; align-items: center; gap: 2rem; }
-  .nav__logo { margin-right: auto; position: relative; z-index: 2; }
+  .nav__logo { margin-right: auto; position: relative; z-index: 2; --logo-size: 3.4rem; }
+  .nav__logo :global(.logo__img) { transition: width 0.6s var(--ease-out), transform 0.9s var(--spring); }
+  :global(.is-scrolled) .nav__logo { --logo-size: 2.6rem; }
+  @media (max-width: 1000px) { .nav__logo { --logo-size: 2.9rem; } :global(.is-scrolled) .nav__logo { --logo-size: 2.4rem; } }
   .nav__links { position: relative; }
   .nav__links ul { display: flex; gap: 0.25rem; }
   .nav__links a {
@@ -102,7 +105,7 @@ const isActive = (h: string) => path === h || path.startsWith(h + '/');
   .menu__primary a {
     display: flex; align-items: baseline; gap: 0.9rem; padding-block: 0.35rem;
     font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 70;
-    text-transform: uppercase; font-size: clamp(2.6rem, 12vw, 5rem); line-height: 0.95; letter-spacing: -0.01em;
+    text-transform: uppercase; font-size: clamp(2rem, 8.5vw, 3.25rem); line-height: 1; letter-spacing: -0.005em;
   }
   .menu__primary .mono { font-size: 0.7rem; transform: translateY(-1.2em); }
   .menu__secondary { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(239, 235, 228, 0.15); }

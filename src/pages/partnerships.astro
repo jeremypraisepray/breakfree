@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import Photo from '../components/Photo.astro';
 import Arrow from '../components/Arrow.astro';
-import hero from '../assets/photos/childrens-museum-freeze.webp';
-import side from '../assets/photos/studio-headstand.jpg';
+import hero from '../assets/photos/riverwalk-aerial.jpg';
+import side from '../assets/photos/beatbox-crowd.jpg';
 
 const models = [
   ['Cultural programming', 'Recurring hip-hop programming for venues, museums, libraries and city initiatives.'],
@@ -32,8 +32,8 @@ const why = [
     title={["Let's build", 'something', 'that moves.']}
     lede="From live entertainment and cultural programming to educational experiences and creative collaborations, Break Free Worldwide partners with organizations that want to create meaningful experiences."
     image={hero}
-    imageAlt="A Break Free dancer performs a freeze at a children's museum event while young fans strike poses behind him."
-    imagePos="50% 40%"
+    imageAlt="Aerial view of a Break Free battle floor on a riverwalk, surrounded by a large crowd."
+    imagePos="50% 0%"
   >
     <a href="/book?interest=partnership" class="btn btn--world btn--lg" data-magnetic>Start a conversation <Arrow /></a>
   </PageHero>
@@ -44,7 +44,7 @@ const why = [
         <p class="eyebrow" data-reveal>Ways to partner</p>
         <h2 class="display display--xl" id="models-title" data-reveal style="margin-top:1.5rem">Five ways<br /><span class="outline-text">in.</span></h2>
         <div class="models__img media tone" data-reveal="mask">
-          <Photo src={side} alt="An instructor balances in a headstand freeze while young students watch." sizes="(min-width: 900px) 30vw, 100vw" widths={[480, 800, 1200]} position="40% 50%" />
+          <Photo src={side} alt="A Break Free artist performs on the mic in front of a festival crowd." sizes="(min-width: 900px) 30vw, 100vw" widths={[480, 800, 1200]} position="45% 50%" />
         </div>
       </div>
       <ol role="list" class="models__list">
@@ -98,9 +98,9 @@ const why = [
   .models__list { border-top: 1px solid rgba(239, 235, 228, 0.14); }
   .models__list li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; padding: 2rem 0; border-bottom: 1px solid rgba(239, 235, 228, 0.14); transition: padding 0.6s var(--ease-out); }
   .models__list li:hover { padding-left: 0.75rem; }
-  .models__list h3 { font-size: clamp(1.6rem, 3vw, 2.8rem); font-variation-settings: 'wdth' 75; font-weight: 800; margin-bottom: 0.6rem; }
+  .models__list h3 { font-size: clamp(1.35rem, 2.1vw, 2rem); font-variation-settings: 'wdth' 75; font-weight: 800; margin-bottom: 0.6rem; }
   .aud-band { background: var(--world); color: var(--ink); padding-block: 1.5rem; }
-  .aud-band span { display: inline-flex; align-items: center; gap: 3rem; font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 72; text-transform: uppercase; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; }
+  .aud-band span { display: inline-flex; align-items: center; gap: 3rem; font-family: var(--font-display); font-weight: 800; font-variation-settings: 'wdth' 72; text-transform: uppercase; font-size: clamp(1.6rem, 3.4vw, 3rem); line-height: 1; }
   .aud-band i { font-style: normal; font-size: 0.4em; }
   .why { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; margin-top: 3rem; }
   .why > div { padding-top: 1.25rem; border-top: 1px solid rgba(0, 0, 0, 0.18); }
@@ -111,7 +111,7 @@ const why = [
     .models { grid-template-columns: 1fr; }
     .models__head { position: static; }
     .why { grid-template-columns: 1fr 1fr; }
-    .pitch h2 { font-size: clamp(3rem, 14vw, 6rem); }
+    .pitch h2 { font-size: clamp(2.4rem, 11vw, 3.75rem); }
     .pitch__cta .btn { width: 100%; }
   }
 </style>

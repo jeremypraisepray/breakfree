@@ -44,7 +44,7 @@ const { accent, image, imageAlt, imagePos, eyebrow, title, lede, perks } = Astro
   .funnel__img::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(10,10,10,0.55), rgba(10,10,10,0.05) 35%, rgba(10,10,10,0.92)); }
   .funnel__intro { padding: var(--gutter); padding-bottom: clamp(2rem, 5vw, 4rem); display: grid; gap: 1.25rem; }
   .funnel__eyebrow { color: rgba(239, 235, 228, 0.8); }
-  .funnel__title { font-size: clamp(3rem, 7.2vw, 8rem); color: var(--white); }
+  .funnel__title { font-size: clamp(2.6rem, 4.6vw, 5rem); color: var(--white); }
   .hero-line { display: block; overflow: hidden; padding-bottom: 0.03em; }
   .hero-line > span { display: inline-block; animation: rise 1.2s var(--ease-out) both; }
   .funnel__lede { max-width: 34ch; font-size: var(--fs-m); line-height: 1.35; color: rgba(239, 235, 228, 0.88); }
@@ -57,7 +57,7 @@ const { accent, image, imageAlt, imagePos, eyebrow, title, lede, perks } = Astro
   @media (max-width: 999px) {
     .funnel { grid-template-columns: 1fr; }
     .funnel__visual { position: relative; height: auto; min-height: 30rem; padding-top: var(--nav-h); }
-    .funnel__title { font-size: clamp(3rem, 15vw, 6rem); }
+    .funnel__title { font-size: clamp(2.6rem, 11vw, 3.75rem); }
     .funnel__main { padding-top: 2.5rem; }
   }
 </style>
